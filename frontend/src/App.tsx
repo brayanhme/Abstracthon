@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from './components/Header';
 import { ExploreView } from './components/ExploreView';
 import { CompaniesView } from './components/CompaniesView';
 import { CompostView } from './components/CompostView';
 import { ReservationsView } from './components/ReservationsView';
-import { LoginModal } from './components/LoginModal';
 
 export function App() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-
   return (
     <div className="min-h-screen bg-[#FFFBF7] flex flex-col justify-between selection:bg-[#FFE1C6] selection:text-[#FF7A00]">
-      <Header
-        onOpenLogin={() => setIsLoginOpen(true)}
-        reservationsCount={0}
-      />
+      <Header reservationsCount={0} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16 flex-1 w-full">
         <ExploreView />
@@ -22,11 +16,6 @@ export function App() {
         <CompostView />
         <ReservationsView />
       </main>
-
-      <LoginModal
-        isOpen={isLoginOpen}
-        onClose={() => setIsLoginOpen(false)}
-      />
 
       <footer className="border-t border-[#1E3A8A]/10 bg-[#FFFFFF] py-8 text-center text-xs text-[#526384] mt-16">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">

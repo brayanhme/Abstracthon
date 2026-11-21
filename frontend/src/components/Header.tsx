@@ -1,13 +1,11 @@
 import React from 'react';
-import { Leaf, Compass, Store, Sprout, Ticket, User } from 'lucide-react';
+import { Leaf, Compass, Store, Sprout, Ticket } from 'lucide-react';
 
 interface HeaderProps {
-  onOpenLogin?: () => void;
   reservationsCount?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  onOpenLogin,
   reservationsCount = 0
 }) => {
   return (
@@ -73,16 +71,6 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </a>
         </nav>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onOpenLogin}
-            className="bg-[#1E3A8A] hover:bg-[#152a66] text-white text-sm font-semibold px-4 py-2.5 rounded-full flex items-center gap-2 transition-all shadow-sm active:scale-95 cursor-pointer"
-          >
-            <User className="w-4 h-4" />
-            <span>Iniciar sesión</span>
-          </button>
-        </div>
       </div>
 
       <div className="md:hidden flex items-center justify-around py-2.5 px-2 border-t border-[#1E3A8A]/5 bg-[#FFFBF7]/95">
