@@ -1,40 +1,51 @@
 import React from 'react';
-import { Leaf, Compass, Store, Sprout, Ticket, User, LogOut } from 'lucide-react';
-import { UserProfile } from '../types';
+import { Leaf, Compass, Store, Sprout, Ticket, User, Database, Eye } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: 'explorar' | 'empresas' | 'composta' | 'reservas';
   setActiveTab: (tab: 'explorar' | 'empresas' | 'composta' | 'reservas') => void;
-  reservationsCount: number;
-  user: UserProfile;
-  onOpenLogin: () => void;
-  onLogout: () => void;
-  onSelectCompany: (companyId: string | null) => void;
+  reservationsCount?: number;
+  userName?: string;
+  isLoggedIn?: boolean;
+  onOpenLogin?: () => void;
+  showPreviewData: boolean;
+  onTogglePreview: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
-  reservationsCount,
-  user,
+  reservationsCount = 0,
+  userName = 'Usuario',
+  isLoggedIn = false,
   onOpenLogin,
-  onLogout,
-  onSelectCompany
+  showPreviewData,
+  onTogglePreview
 }) => {
-  const handleNav = (tab: 'explorar' | 'empresas' | 'composta' | 'reservas') => {
-    if (tab === 'empresas') {
-      onSelectCompany(null);
-    }
-    setActiveTab(tab);
-  };
-
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#FFFBF7]/90 backdrop-blur-md border-b border-[#1E3A8A]/10 transition-all">
+    <header className="sticky top-0 z-40 w-full bg-[#FFFBF7]/90 backdrop-blur-md border-b border-[#1E3A8A]/10">
+      
+      {/* Barra superior de estado de conexión Backend / BD */}
+      <div className="bg-[#1E3A8A] text-white py-1 px-4 text-xs font-semibold flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Database className="w-3.5 h-3.5 text-[#FF7A00]" />
+          <span>Frontend desacoplado — Preparado para conexión con Base de Datos / API</span>
+        </div>
+        <button
+          onClick={onTogglePreview}
+          className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-[11px] transition-colors cursor-pointer"
+          title="Alternar entre visualización con datos de plantilla o estado en espera de BD"
+        >
+          <Eye className="w-3 h-3 text-[#FF7A00]" />
+          <span>{showPreviewData ? 'Modo: Previsualización UI Activa' : 'Modo: En espera de Base de Datos'}</span>
+        </button>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         
         {/* 1. Izquierda (Marca Q'omer) */}
         <div 
-          onClick={() => handleNav('explorar')}
+          onClick={() => setActiveTab('explorar')}
           className="flex items-center gap-3 cursor-pointer group select-none flex-shrink-0"
         >
           <div className="w-11 h-11 rounded-2xl bg-[#FF7A00] flex items-center justify-center shadow-md shadow-[#FF7A00]/25 group-hover:scale-105 transition-transform duration-200">
@@ -53,11 +64,12 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* 2. Centro (Navegación en Burbujas Didácticas) */}
+        {/* 2. Centro (Navegación en Burbujas Didácticas con animación elástica) */}
         <nav className="hidden md:flex items-center gap-2 lg:gap-3">
-          {/* Burbuja: Explorar */}
+          
+          {/* Explorar */}
           <button
-            onClick={() => handleNav('explorar')}
+            onClick={() => setActiveTab('explorar')}
             className={`didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border transition-all ${
               activeTab === 'explorar'
                 ? 'bg-[#FF7A00] text-white border-[#FF7A00] shadow-sm shadow-[#FF7A00]/30'
@@ -69,9 +81,9 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Explorar</span>
           </button>
 
-          {/* Burbuja: Empresas */}
+          {/* Empresas */}
           <button
-            onClick={() => handleNav('empresas')}
+            onClick={() => setActiveTab('empresas')}
             className={`didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border transition-all ${
               activeTab === 'empresas'
                 ? 'bg-[#FF7A00] text-white border-[#FF7A00] shadow-sm shadow-[#FF7A00]/30'
@@ -83,9 +95,9 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Empresas</span>
           </button>
 
-          {/* Burbuja: Composta */}
+          {/* Composta */}
           <button
-            onClick={() => handleNav('composta')}
+            onClick={() => setActiveTab('composta')}
             className={`didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border transition-all ${
               activeTab === 'composta'
                 ? 'bg-[#FF7A00] text-white border-[#FF7A00] shadow-sm shadow-[#FF7A00]/30'
@@ -97,9 +109,9 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Composta</span>
           </button>
 
-          {/* Burbuja: Mis Reservas */}
+          {/* Mis Reservas */}
           <button
-            onClick={() => handleNav('reservas')}
+            onClick={() => setActiveTab('reservas')}
             className={`didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border transition-all ${
               activeTab === 'reservas'
                 ? 'bg-[#FF7A00] text-white border-[#FF7A00] shadow-sm shadow-[#FF7A00]/30'
@@ -121,26 +133,19 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* 3. Derecha (Acceso Usuario) */}
         <div className="flex items-center gap-3">
-          {user.isLoggedIn ? (
+          {isLoggedIn ? (
             <div className="flex items-center gap-2 bg-[#FFFFFF] border border-[#1E3A8A]/10 px-3.5 py-1.5 rounded-full shadow-sm">
               <div className="w-7 h-7 rounded-full bg-[#1E3A8A] text-white flex items-center justify-center font-bold text-xs">
-                {user.name.charAt(0).toUpperCase()}
+                {userName.charAt(0).toUpperCase()}
               </div>
               <span className="text-sm font-semibold text-[#1E3A8A] max-w-[120px] truncate">
-                Hola, {user.name.split(' ')[0]}
+                Hola, {userName}
               </span>
-              <button 
-                onClick={onLogout}
-                title="Cerrar sesión"
-                className="text-[#526384] hover:text-[#B91C1C] p-1 rounded-full transition-colors ml-1"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
             </div>
           ) : (
             <button
               onClick={onOpenLogin}
-              className="bg-[#1E3A8A] hover:bg-[#152a66] text-white text-sm font-semibold px-4 py-2.5 rounded-full flex items-center gap-2 transition-all shadow-sm active:scale-95"
+              className="bg-[#1E3A8A] hover:bg-[#152a66] text-white text-sm font-semibold px-4 py-2.5 rounded-full flex items-center gap-2 transition-all shadow-sm active:scale-95 cursor-pointer"
             >
               <User className="w-4 h-4" />
               <span>Iniciar sesión</span>
@@ -149,10 +154,10 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Navegación móvil inferior o secundaria */}
+      {/* Navegación móvil inferior */}
       <div className="md:hidden flex items-center justify-around py-2.5 px-2 border-t border-[#1E3A8A]/5 bg-[#FFFBF7]/95">
         <button
-          onClick={() => handleNav('explorar')}
+          onClick={() => setActiveTab('explorar')}
           className={`flex flex-col items-center gap-1 text-xs font-medium py-1 px-2.5 rounded-lg ${
             activeTab === 'explorar' ? 'text-[#FF7A00] font-bold' : 'text-[#526384]'
           }`}
@@ -161,7 +166,7 @@ export const Header: React.FC<HeaderProps> = ({
           <span>Explorar</span>
         </button>
         <button
-          onClick={() => handleNav('empresas')}
+          onClick={() => setActiveTab('empresas')}
           className={`flex flex-col items-center gap-1 text-xs font-medium py-1 px-2.5 rounded-lg ${
             activeTab === 'empresas' ? 'text-[#FF7A00] font-bold' : 'text-[#526384]'
           }`}
@@ -170,7 +175,7 @@ export const Header: React.FC<HeaderProps> = ({
           <span>Empresas</span>
         </button>
         <button
-          onClick={() => handleNav('composta')}
+          onClick={() => setActiveTab('composta')}
           className={`flex flex-col items-center gap-1 text-xs font-medium py-1 px-2.5 rounded-lg ${
             activeTab === 'composta' ? 'text-[#FF7A00] font-bold' : 'text-[#526384]'
           }`}
@@ -179,20 +184,16 @@ export const Header: React.FC<HeaderProps> = ({
           <span>Composta</span>
         </button>
         <button
-          onClick={() => handleNav('reservas')}
+          onClick={() => setActiveTab('reservas')}
           className={`relative flex flex-col items-center gap-1 text-xs font-medium py-1 px-2.5 rounded-lg ${
             activeTab === 'reservas' ? 'text-[#FF7A00] font-bold' : 'text-[#526384]'
           }`}
         >
           <Ticket className="w-4 h-4" />
           <span>Reservas</span>
-          {reservationsCount > 0 && (
-            <span className="absolute top-0 right-1 w-4 h-4 bg-[#FF7A00] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-              {reservationsCount}
-            </span>
-          )}
         </button>
       </div>
+
     </header>
   );
 };

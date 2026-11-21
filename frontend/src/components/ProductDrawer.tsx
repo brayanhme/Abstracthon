@@ -1,19 +1,17 @@
 import React from 'react';
-import { OfferProduct, Company } from '../types';
-import { X, Clock, MapPin, ShieldCheck, ArrowRight, Store, AlertTriangle } from 'lucide-react';
+import { OfferProduct } from '../types';
+import { X, Clock, MapPin, ShieldCheck, ArrowRight, Store } from 'lucide-react';
 
 interface ProductDrawerProps {
   product: OfferProduct | null;
-  company: Company | undefined;
   isOpen: boolean;
   onClose: () => void;
-  onReserve: (product: OfferProduct) => void;
-  onViewCompany: (companyId: string) => void;
+  onReserve?: (product: OfferProduct) => void;
+  onViewCompany?: (companyId: string) => void;
 }
 
 export const ProductDrawer: React.FC<ProductDrawerProps> = ({
   product,
-  company,
   isOpen,
   onClose,
   onReserve,
@@ -22,7 +20,9 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
   if (!isOpen || !product) return null;
 
   const isOutOfStock = product.stock <= 0;
-  const discountPct = Math.round(((product.oldPrice - product.newPrice) / product.oldPrice) * 100);
+  const discountPct = product.oldPrice > product.newPrice
+    ? Math.round(((product.oldPrice - product.newPrice) / product.oldPrice) * 100)
+    : 50;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -38,17 +38,23 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
           {/* Header con botón cerrar */}
           <div className="relative">
             <div className="h-64 sm:h-72 w-full overflow-hidden bg-gray-100 relative">
-              <img 
-                src={product.img} 
-                alt={product.title} 
-                className="w-full h-full object-cover"
-              />
+              {product.imageUrl ? (
+                <img 
+                  src={product.imageUrl} 
+                  alt={product.title} 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-[#FFE1C6]/40 flex items-center justify-center">
+                  <Store className="w-16 h-16 text-[#FF7A00]" />
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
               
               {/* Botón cerrar */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#1E3A8A] flex items-center justify-center shadow-lg transition-transform hover:scale-105"
+                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#1E3A8A] flex items-center justify-center shadow-lg transition-transform hover:scale-105 cursor-pointer"
                 title="Cerrar panel"
               >
                 <X className="w-5 h-5" />
@@ -71,36 +77,30 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
           {/* Cuerpo del drawer con scroll */}
           <div className="p-6 space-y-6 flex-1 overflow-y-auto">
             
-            {/* Empresa con logo y link al perfil */}
+            {/* Empresa y link al perfil */}
             <div className="flex items-center justify-between p-3.5 bg-[#FFFBF7] rounded-xl border border-[#1E3A8A]/10">
-              <div className="flex items-center gap-3">
-                {company?.logoSvg && (
-                  <div 
-                    className="w-10 h-10 rounded-xl overflow-hidden shadow-xs flex-shrink-0"
-                    dangerouslySetInnerHTML={{ __html: company.logoSvg }}
-                  />
-                )}
-                <div>
-                  <h4 className="text-sm font-bold text-[#1E3A8A]">
-                    {product.biz}
-                  </h4>
-                  <p className="text-xs text-[#526384]">
-                    {company?.category || 'Empresa Aliada'}
-                  </p>
-                </div>
+              <div>
+                <h4 className="text-sm font-bold text-[#1E3A8A]">
+                  {product.bizName}
+                </h4>
+                <p className="text-xs text-[#526384]">
+                  Empresa registrada en base de datos
+                </p>
               </div>
 
-              <button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  onViewCompany(product.companyId);
-                }}
-                className="text-xs font-bold text-[#FF7A00] hover:text-[#E06800] flex items-center gap-1 hover:underline"
-              >
-                <Store className="w-3.5 h-3.5" />
-                <span>Ver perfil</span>
-              </button>
+              {onViewCompany && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    onViewCompany(product.companyId);
+                  }}
+                  className="text-xs font-bold text-[#FF7A00] hover:text-[#E06800] flex items-center gap-1 hover:underline cursor-pointer"
+                >
+                  <Store className="w-3.5 h-3.5" />
+                  <span>Ver perfil</span>
+                </button>
+              )}
             </div>
 
             {/* Título y categoría */}
@@ -113,13 +113,13 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
               </h2>
             </div>
 
-            {/* Descripción completa */}
+            {/* Descripción */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-[#526384]">
                 Detalles del paquete
               </h4>
               <p className="text-sm text-[#526384] leading-relaxed">
-                {product.desc}
+                {product.description || 'Sin descripción adicional en la base de datos.'}
               </p>
             </div>
 
@@ -130,8 +130,8 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
                   <Clock className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#526384] font-medium">Horario de retiro hoy</p>
-                  <p className="text-sm font-bold text-[#1E3A8A]">{product.time}</p>
+                  <p className="text-xs text-[#526384] font-medium">Horario de retiro</p>
+                  <p className="text-sm font-bold text-[#1E3A8A]">{product.pickupWindow}</p>
                 </div>
               </div>
 
@@ -140,9 +140,8 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#526384] font-medium">Ubicación de la sucursal</p>
-                  <p className="text-sm font-bold text-[#1E3A8A]">{company?.address || product.zone}</p>
-                  <p className="text-xs text-[#526384]">{product.zone}, Cochabamba</p>
+                  <p className="text-xs text-[#526384] font-medium">Ubicación</p>
+                  <p className="text-sm font-bold text-[#1E3A8A]">{product.zone}, Cochabamba</p>
                 </div>
               </div>
 
@@ -153,7 +152,7 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
                 <div>
                   <p className="text-xs text-[#526384] font-medium">Garantía Q'omer</p>
                   <p className="text-xs text-[#526384] leading-relaxed">
-                    Alimentos en perfectas condiciones bromatológicas garantizadas por la empresa.
+                    Alimentos garantizados por la empresa emisora para retiro el mismo día.
                   </p>
                 </div>
               </div>
@@ -161,11 +160,11 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
 
           </div>
 
-          {/* Footer fijo con precio y botón Reservar Ahora */}
+          {/* Footer con precio y acción */}
           <div className="p-6 bg-[#FFFBF7] border-t border-[#1E3A8A]/10 flex items-center justify-between gap-4">
             <div>
               <span className="text-xs text-[#526384] line-through block">
-                Precio normal: Bs. {product.oldPrice}
+                Bs. {product.oldPrice}
               </span>
               <div className="flex items-baseline gap-1">
                 <span className="text-xs font-bold text-[#FF7A00]">Rescate:</span>
@@ -178,13 +177,13 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
             <button
               disabled={isOutOfStock}
               onClick={() => {
-                onReserve(product);
+                if (onReserve) onReserve(product);
                 onClose();
               }}
               className={`px-7 py-3 rounded-full text-base font-bold flex items-center gap-2 shadow-lg transition-all ${
                 isOutOfStock
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-[#FF7A00] hover:bg-[#E06800] text-white active:scale-95 shadow-[#FF7A00]/30'
+                  : 'bg-[#FF7A00] hover:bg-[#E06800] text-white active:scale-95 shadow-[#FF7A00]/30 cursor-pointer'
               }`}
             >
               <span>{isOutOfStock ? 'Sin stock' : 'Reservar ahora'}</span>
