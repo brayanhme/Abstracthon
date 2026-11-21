@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Company } from '../types';
-import { Search, Store, Building2 } from 'lucide-react';
+import { Search, Store, Building2, MapPin, ArrowRight } from 'lucide-react';
 
 interface CompaniesViewProps {
   companies?: Company[];
@@ -51,10 +51,33 @@ export const CompaniesView: React.FC<CompaniesViewProps> = ({
             <div
               key={comp.id}
               onClick={() => onSelectCompany && onSelectCompany(comp.id)}
-              className="clean-card p-6 cursor-pointer hover:border-[#FF7A00]/40 transition-all"
+              className="clean-card rounded-3xl p-6 cursor-pointer flex flex-col justify-between space-y-5 hover:border-[#FF7A00]/40 transition-all group"
             >
-              <h3 className="font-heading font-extrabold text-xl text-[#1E3A8A]">{comp.name}</h3>
-              <p className="text-xs text-[#526384] mt-1">{comp.description}</p>
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 rounded-2xl bg-[#FFE1C6] text-[#1E3A8A] flex items-center justify-center font-heading font-extrabold text-2xl shrink-0 shadow-xs">
+                  {comp.name.charAt(0)}
+                </div>
+                <div className="min-w-0 space-y-1">
+                  <span className="inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#FFE1C6] text-[#1E3A8A]">
+                    {comp.category}
+                  </span>
+                  <h3 className="font-heading font-extrabold text-xl text-[#1E3A8A] truncate">{comp.name}</h3>
+                  <p className="text-xs text-[#526384] flex items-center gap-1 truncate">
+                    <MapPin className="w-3.5 h-3.5 text-[#FF7A00] shrink-0" />
+                    <span>{comp.address || comp.zone}</span>
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-xs text-[#526384] line-clamp-2">{comp.description}</p>
+
+              <div className="pt-4 border-t border-[#1E3A8A]/10 flex items-center justify-between text-xs">
+                <span className="font-semibold text-[#1E3A8A]">{comp.activeOffersCount || 0} ofertas activas</span>
+                <span className="font-semibold text-[#FF7A00] flex items-center gap-1 group-hover:translate-x-1 transition">
+                  <span>Ver productos y biomasa</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
             </div>
           ))}
         </div>

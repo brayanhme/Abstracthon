@@ -9,6 +9,7 @@ export interface Company {
   logoSvg?: string;
   phone?: string;
   hours?: string;
+  activeOffersCount?: number;
   coords?: {
     lat: number;
     lng: number;
@@ -25,22 +26,29 @@ export interface OfferProduct {
   zone: string;
   oldPrice: number;
   newPrice: number;
+  originalPrice?: number;
+  discountPrice?: number;
   stock: number;
-  pickupWindow: string;
+  pickupWindow?: string;
+  pickupTime?: string;
   description: string;
   imageUrl?: string;
+  image?: string;
   createdAt?: string;
 }
 
 export interface CompostLot {
   id: string;
   companyId: string;
+  companyName?: string;
   title: string;
   source: string;
   useType: 'Compostaje / Humus' | 'Alimento Animal' | string;
   stock: number;
   price: number;
+  symbolicPrice?: number;
   unit: string;
+  weightKg?: number;
   weightApprox?: string;
   description: string;
   createdAt?: string;

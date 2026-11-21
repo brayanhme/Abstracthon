@@ -96,11 +96,44 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
           {filteredOffers.map((item) => (
             <div
               key={item.id}
-              className="clean-card p-5 cursor-pointer hover:border-[#FF7A00]/40 transition-all"
+              className="clean-card rounded-3xl overflow-hidden flex flex-col justify-between group cursor-pointer"
               onClick={() => onSelectProduct && onSelectProduct(item)}
             >
-              <h3 className="font-heading font-bold text-lg text-[#1E3A8A]">{item.title}</h3>
-              <p className="text-xs text-[#526384] mt-1">{item.description}</p>
+              <div className="relative h-48 overflow-hidden bg-neutral-100">
+                <img
+                  src={item.imageUrl || item.image || 'https://placehold.co/600x400/FFE1C6/1E3A8A?text=ReAprovecha'}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                />
+                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-extrabold text-white bg-[#FF7A00] shadow-xs">
+                  -{Math.round((((item.oldPrice || item.originalPrice || 1) - (item.newPrice || item.discountPrice || 0)) / (item.oldPrice || item.originalPrice || 1)) * 100)}%
+                </span>
+                <span className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow-xs backdrop-blur-md bg-white/95 text-[#1E3A8A] border border-[#1E3A8A]/10">
+                  Stock: {item.stock} disp.
+                </span>
+              </div>
+
+              <div className="p-6 pb-4 space-y-2">
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <span className="font-semibold text-[#1E3A8A]">{item.bizName}</span>
+                  <span className="text-[#526384] truncate">{item.zone}</span>
+                </div>
+                <h3 className="font-heading font-bold text-lg text-[#1E3A8A] leading-snug pt-0.5">{item.title}</h3>
+                <p className="text-xs text-[#526384]">Retiro: {item.pickupWindow || item.pickupTime || 'Hoy'}</p>
+              </div>
+
+              <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-[#1E3A8A]/10">
+                <div>
+                  <span className="text-xs line-through text-[#526384] block">Bs. {item.oldPrice || item.originalPrice || 0}</span>
+                  <span className="font-heading text-2xl font-extrabold text-[#1E3A8A]">Bs. {item.newPrice || item.discountPrice || 0}</span>
+                </div>
+                <button
+                  type="button"
+                  className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold bg-[#FF7A00] hover:bg-[#E06800] transition cursor-pointer shadow-xs"
+                >
+                  Reservar &rarr;
+                </button>
+              </div>
             </div>
           ))}
         </div>
