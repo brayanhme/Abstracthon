@@ -141,12 +141,11 @@
                     <span class="text-sm font-semibold tracking-tight">Composta</span>
                 </button>
 
-                <button type="button" id="nav-reservas" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-default">
+                <button type="button" id="nav-reservas" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-default">
                     <span class="bubble-dot w-8 h-8 rounded-full u-surface-30 u-ink-30 flex items-center justify-center">
                         <i data-lucide="ticket" class="w-4 h-4"></i>
                     </span>
                     <span class="text-sm font-semibold tracking-tight">Mis Reservas</span>
-                    <span id="nav-res-count" class="w-5 h-5 flex items-center justify-center text-[11px] font-extrabold rounded-full u-accent-10 text-white shadow-2xs">0</span>
                 </button>
             </nav>
 
@@ -195,23 +194,15 @@
                 </p>
             </div>
 
-            <!-- Filtros rápidos por categoría y selector de zona -->
+            <!-- Filtros rápidos por categoría y selector de zona (Vacíos, en espera de la BD) -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                 <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="category-bar">
-                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white transition cursor-pointer whitespace-nowrap">Todos</button>
-                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Panadería</button>
-                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Lácteos y Helados</button>
-                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Supermercado</button>
-                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Embutidos y Frescos</button>
+                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white whitespace-nowrap">Todas las categorías</button>
                 </div>
 
                 <div class="relative shrink-0">
                     <select id="zone-filter" class="appearance-none u-card-30 u-ink-30 border u-border rounded-full pl-4 pr-9 py-2 text-sm font-medium focus:outline-none cursor-pointer">
-                        <option value="Todas">Toda Cochabamba</option>
-                        <option value="Centro / El Prado">Centro / El Prado</option>
-                        <option value="Zona Norte / Av. América">Zona Norte / Av. América</option>
-                        <option value="Av. Blanco Galindo">Av. Blanco Galindo</option>
-                        <option value="Tiquipaya / Cala Cala">Tiquipaya / Cala Cala</option>
+                        <option value="">Todas las zonas</option>
                     </select>
                     <i data-lucide="chevron-down" class="w-4 h-4 u-ink-muted absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
                 </div>

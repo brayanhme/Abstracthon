@@ -4,36 +4,24 @@ import { MapPin, Sparkles, Filter, PackageOpen } from 'lucide-react';
 
 interface ExploreViewProps {
   offers?: OfferProduct[];
+  categories?: string[];
+  zones?: string[];
   onSelectProduct?: (product: OfferProduct) => void;
 }
 
-const CATEGORIES = [
-  'Todos',
-  'Panadería',
-  'Lácteos y Helados',
-  'Supermercado',
-  'Embutidos y Frescos'
-] as const;
-
-const ZONES = [
-  'Toda Cochabamba',
-  'Centro / El Prado',
-  'Zona Norte / Av. América',
-  'Av. Blanco Galindo',
-  'Tiquipaya / Cala Cala'
-] as const;
-
 export const ExploreView: React.FC<ExploreViewProps> = ({
   offers = [],
+  categories = ['Todas las categorías'],
+  zones = ['Todas las zonas'],
   onSelectProduct
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
-  const [selectedZone, setSelectedZone] = useState<string>('Toda Cochabamba');
+  const [selectedCategory, setSelectedCategory] = useState<string>(categories[0] || 'Todas las categorías');
+  const [selectedZone, setSelectedZone] = useState<string>(zones[0] || 'Todas las zonas');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const filteredOffers = offers.filter(item => {
-    const matchCategory = selectedCategory === 'Todos' || item.category === selectedCategory;
-    const matchZone = selectedZone === 'Toda Cochabamba' || item.zone === selectedZone;
+    const matchCategory = selectedCategory === 'Todas las categorías' || item.category === selectedCategory;
+    const matchZone = selectedZone === 'Todas las zonas' || item.zone === selectedZone;
     const matchSearch = searchQuery.trim() === '' || 
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.bizName.toLowerCase().includes(searchQuery.toLowerCase());
@@ -70,7 +58,7 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
               onChange={(e) => setSelectedZone(e.target.value)}
               className="bg-[#FFFBF7] border border-[#1E3A8A]/15 text-[#1E3A8A] text-sm font-semibold rounded-xl px-3 py-2 outline-none focus:border-[#FF7A00] cursor-pointer"
             >
-              {ZONES.map(zone => (
+              {zones.map(zone => (
                 <option key={zone} value={zone}>{zone}</option>
               ))}
             </select>
@@ -90,7 +78,7 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
 
         {/* Chips horizontales de categorías */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          {CATEGORIES.map(category => {
+          {categories.map(category => {
             const isActive = selectedCategory === category;
             return (
               <button
