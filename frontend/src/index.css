@@ -26,7 +26,6 @@
   }
 }
 
-/* Didactic Bubble styles & elastic hover */
 .didactic-bubble {
   transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -47,7 +46,6 @@
   transform: rotate(45deg) scale(1.1);
 }
 
-/* Clean Card styling with subtle border */
 .clean-card {
   background: #FFFFFF;
   border: 1px solid rgba(30, 58, 138, 0.09);
@@ -60,7 +58,6 @@
   box-shadow: 0 12px 30px -4px rgba(30, 58, 138, 0.08);
 }
 
-/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

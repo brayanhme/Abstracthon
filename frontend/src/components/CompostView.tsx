@@ -19,8 +19,6 @@ export const CompostView: React.FC<CompostViewProps> = ({
 
   return (
     <section id="composta" className="scroll-mt-24 space-y-8 pt-8 border-t border-[#1E3A8A]/10">
-      
-      {/* Banner didáctico sobre economía circular en Cochabamba */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#1E3A8A] via-[#1E3A8A] to-[#254ab3] text-white p-6 sm:p-10 shadow-lg">
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6B8F5E]/30 text-emerald-200 border border-[#6B8F5E]/40 text-xs font-bold uppercase tracking-wider">
@@ -51,7 +49,6 @@ export const CompostView: React.FC<CompostViewProps> = ({
         </div>
       </div>
 
-      {/* Barra de Filtros */}
       <div className="bg-[#FFFFFF] p-4 rounded-2xl border border-[#1E3A8A]/10 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Tractor className="w-5 h-5 text-[#6B8F5E]" />
@@ -75,7 +72,6 @@ export const CompostView: React.FC<CompostViewProps> = ({
         </div>
       </div>
 
-      {/* Cuadrícula o estado vacío */}
       {filteredLots.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredLots.map(lot => (
@@ -98,7 +94,6 @@ export const CompostView: React.FC<CompostViewProps> = ({
           </p>
         </div>
       )}
-
     </section>
   );
 };

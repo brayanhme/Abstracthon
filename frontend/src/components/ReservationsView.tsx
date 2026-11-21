@@ -11,8 +11,6 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
 }) => {
   return (
     <section id="reservas" className="scroll-mt-24 space-y-8 pt-8 border-t border-[#1E3A8A]/10">
-      
-      {/* Encabezado */}
       <div className="space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE1C6] text-[#FF7A00] text-xs font-bold uppercase tracking-wide">
           <Ticket className="w-3.5 h-3.5" />
@@ -26,10 +24,7 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
         </p>
       </div>
 
-      {/* Grid 2 Columnas (lg:grid-cols-12) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* Columna Izquierda (lg:col-span-7): Lista de reservas o estado vacío */}
         <div className="lg:col-span-7 space-y-4">
           {reservations.length > 0 ? (
             <div className="space-y-4">
@@ -55,7 +50,6 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
           )}
         </div>
 
-        {/* Columna Derecha (lg:col-span-5): Mapa Vectorial de Cochabamba */}
         <div className="lg:col-span-5 space-y-5">
           <div className="clean-card p-6 bg-[#FFFFFF] space-y-4 shadow-md border-t-4 border-t-[#FF7A00]">
             <div className="space-y-1">
@@ -67,7 +61,6 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
               </h3>
             </div>
 
-            {/* Mapa Vectorial limpio de Cochabamba */}
             <div className="relative rounded-2xl overflow-hidden border border-[#1E3A8A]/10 bg-[#FFFBF7]">
               <div className="relative w-full h-56 sm:h-64">
                 <svg 
@@ -77,15 +70,12 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
                 >
                   <rect width="400" height="240" fill="#F8F6F0" />
                   
-                  {/* Parque Tunari Norte */}
                   <path d="M0 0 L400 0 L400 35 Q300 45 200 30 Q100 20 0 35 Z" fill="#E2EED9" />
                   <text x="200" y="22" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" fill="#6B8F5E" text-anchor="middle" letterSpacing="2">PARQUE NACIONAL TUNARI</text>
 
-                  {/* Laguna Alalay */}
                   <ellipse cx="320" cy="180" rx="42" ry="24" fill="#CDE5FA" stroke="#9EC5E8" strokeWidth="2" />
                   <text x="320" y="183" font-family="sans-serif" font-size="8" font-weight="600" fill="#1E3A8A" text-anchor="middle">Laguna Alalay</text>
 
-                  {/* Río Rocha */}
                   <path 
                     d="M 390 120 Q 300 110 230 115 T 140 100 T 50 105 T 0 95" 
                     fill="none" 
@@ -95,7 +85,6 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
                   />
                   <text x="75" y="96" font-family="sans-serif" font-size="7" fill="#526384" fontStyle="italic">Río Rocha</text>
 
-                  {/* Avenidas */}
                   <line x1="0" y1="130" x2="160" y2="130" stroke="#FFE1C6" strokeWidth="4" />
                   <text x="60" y="125" font-family="sans-serif" font-size="7" font-weight="bold" fill="#526384">Av. Blanco Galindo</text>
 
@@ -106,11 +95,9 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
                   <line x1="120" y1="140" x2="320" y2="140" stroke="#FFE1C6" strokeWidth="3.5" />
                   <text x="250" y="136" font-family="sans-serif" font-size="7" font-weight="bold" fill="#526384">Av. Heroínas</text>
 
-                  {/* Cristo de la Concordia */}
                   <circle cx="360" cy="95" r="7" fill="#1E3A8A" />
                   <text x="360" y="83" font-family="sans-serif" font-size="7" font-weight="bold" fill="#1E3A8A" text-anchor="middle">Cristo de la Concordia</text>
 
-                  {/* Pin central referencial */}
                   <circle cx="200" cy="115" r="6" fill="#FF7A00" stroke="white" strokeWidth="2" />
                 </svg>
 
@@ -126,9 +113,7 @@ export const ReservationsView: React.FC<ReservationsViewProps> = ({
             </p>
           </div>
         </div>
-
       </div>
-
     </section>
   );
 };

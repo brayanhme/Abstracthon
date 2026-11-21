@@ -14,7 +14,6 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-40 w-full bg-[#FFFBF7]/90 backdrop-blur-md border-b border-[#1E3A8A]/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         
-        {/* 1. Izquierda (Marca ReAprovecha) */}
         <a href="#explorar" className="flex items-center gap-3 group select-none flex-shrink-0">
           <div className="w-11 h-11 rounded-2xl bg-[#FF7A00] flex items-center justify-center shadow-md shadow-[#FF7A00]/25 group-hover:scale-105 transition-transform duration-200">
             <Leaf className="w-6 h-6 text-white transform -rotate-12 group-hover:rotate-0 transition-transform" />
@@ -32,10 +31,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </a>
 
-        {/* 2. Centro (Navegación en Burbujas Didácticas con animación elástica) */}
         <nav className="hidden md:flex items-center gap-2 lg:gap-3">
-          
-          {/* Explorar */}
           <a
             href="#explorar"
             className="didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border bg-[#FFE1C6]/70 text-[#1E3A8A] border-[#FFE1C6] hover:bg-[#FFE1C6] transition-all"
@@ -45,7 +41,6 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Explorar</span>
           </a>
 
-          {/* Empresas */}
           <a
             href="#empresas"
             className="didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border bg-[#FFE1C6]/70 text-[#1E3A8A] border-[#FFE1C6] hover:bg-[#FFE1C6] transition-all"
@@ -55,7 +50,6 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Empresas</span>
           </a>
 
-          {/* Composta */}
           <a
             href="#composta"
             className="didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border bg-[#FFE1C6]/70 text-[#1E3A8A] border-[#FFE1C6] hover:bg-[#FFE1C6] transition-all"
@@ -65,7 +59,6 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Composta</span>
           </a>
 
-          {/* Mis Reservas */}
           <a
             href="#reservas"
             className="didactic-bubble relative px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2 border bg-[#FFE1C6]/70 text-[#1E3A8A] border-[#FFE1C6] hover:bg-[#FFE1C6] transition-all"
@@ -81,7 +74,6 @@ export const Header: React.FC<HeaderProps> = ({
           </a>
         </nav>
 
-        {/* 3. Derecha (Acceso Usuario) */}
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenLogin}
@@ -93,7 +85,6 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Navegación móvil inferior */}
       <div className="md:hidden flex items-center justify-around py-2.5 px-2 border-t border-[#1E3A8A]/5 bg-[#FFFBF7]/95">
         <a
           href="#explorar"

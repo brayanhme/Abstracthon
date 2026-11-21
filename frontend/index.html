@@ -5,33 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReAprovecha — Rescate Alimentario & Economía Circular | Cochabamba</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tipografía de alta legibilidad: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Iconos minimalistas Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* =====================================================================
-           SISTEMA DE DISEÑO BASADO EN REGLA 60-30-10
-           - 60% Fondo dominante limpio y descansado (--bg-60)
-           - 30% Superficies suaves, contenedores y estructura (--surface-30 / --ink-30)
-           - 10% Acento llamativo solo para llamadas a la acción (--accent-10)
-           ===================================================================== */
         :root {
-            --bg-60: #FFFBF7;           /* 60% Base neutra cálida */
-            --surface-30: #FFE1C6;      /* 30% Superficie secundaria */
-            --card-30: #FFFFFF;         /* Tarjetas limpias */
-            --ink-30: #1E3A8A;          /* Estructura tipográfica principal */
-            --ink-muted: #526384;       /* Texto secundario */
-            --accent-10: #FF7A00;       /* 10% Acción principal llamativa */
+            --bg-60: #FFFBF7;
+            --surface-30: #FFE1C6;
+            --card-30: #FFFFFF;
+            --ink-30: #1E3A8A;
+            --ink-muted: #526384;
+            --accent-10: #FF7A00;
             --accent-hover: #E06800;
-            --nature-tag: #6B8F5E;      /* Apoyo ecológico sutil */
+            --nature-tag: #6B8F5E;
             --soft-pill: #9EC5E8;
             --border-subtle: rgba(30, 58, 138, 0.09);
         }
@@ -47,7 +36,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Utilidades de color vinculadas al sistema 60-30-10 */
         .u-bg-60 { background-color: var(--bg-60); }
         .u-surface-30 { background-color: var(--surface-30); }
         .u-card-30 { background-color: var(--card-30); }
@@ -66,7 +54,6 @@
             transition: all 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Elevación sutil sin sombras pesadas */
         .clean-card {
             background-color: var(--card-30);
             border: 1px solid var(--border-subtle);
@@ -77,7 +64,6 @@
             box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.07);
         }
 
-        /* Burbujas didácticas de navegación */
         .bubble-nav-item {
             position: relative;
             transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -101,13 +87,9 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-orange-200">
 
-    <!-- ===================================================================== -->
-    <!-- HEADER MINIMALISTA CON BURBUJAS DIDÁCTICAS Y LOGIN (100% FRONTEND)    -->
-    <!-- ===================================================================== -->
     <header class="sticky top-0 z-30 u-bg-60/90 backdrop-blur-md border-b u-border smooth-ui">
         <div class="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-4">
             
-            <!-- Logotipo Limpio -->
             <div class="flex items-center gap-2.5 group shrink-0 select-none">
                 <div class="w-9 h-9 rounded-xl u-accent-10 flex items-center justify-center text-white shadow-xs">
                     <i data-lucide="leaf" class="w-5 h-5"></i>
@@ -118,7 +100,6 @@
                 </div>
             </div>
 
-            <!-- Navegación Principal: Burbujas Didácticas (Botones visuales de Frontend, sin navegación JS interna) -->
             <nav class="hidden md:flex items-center gap-3">
                 <button type="button" id="nav-explorar" class="bubble-nav-item is-active flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-card-30 u-ink-30 border u-border shadow-sm cursor-default">
                     <span class="bubble-dot w-8 h-8 rounded-full u-accent-10 text-white flex items-center justify-center shadow-2xs">
@@ -141,7 +122,7 @@
                     <span class="text-sm font-semibold tracking-tight">Composta</span>
                 </button>
 
-                <button type="button" id="nav-reservas" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-default">
+                <button type="button" id="nav-reservas" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-default">
                     <span class="bubble-dot w-8 h-8 rounded-full u-surface-30 u-ink-30 flex items-center justify-center">
                         <i data-lucide="ticket" class="w-4 h-4"></i>
                     </span>
@@ -149,7 +130,6 @@
                 </button>
             </nav>
 
-            <!-- Acción Derecha: Login / Perfil de Usuario -->
             <div class="flex items-center gap-3 shrink-0">
                 <button type="button" onclick="openLoginModal()" id="login-header-btn" class="flex items-center gap-2.5 px-4 py-2.5 rounded-full u-ink-bg text-white text-sm font-semibold hover:opacity-90 transition cursor-pointer shadow-xs">
                     <i data-lucide="user" class="w-4 h-4"></i>
@@ -158,7 +138,6 @@
             </div>
         </div>
 
-        <!-- Navegación Móvil -->
         <div class="md:hidden flex items-center justify-around border-t u-border px-3 py-2.5 u-bg-60 gap-2 overflow-x-auto no-scrollbar">
             <button type="button" id="mnav-explorar" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-bold u-card-30 u-ink-30 border u-border shadow-2xs whitespace-nowrap">
                 <span class="w-6 h-6 rounded-full u-accent-10 text-white flex items-center justify-center"><i data-lucide="compass" class="w-3.5 h-3.5"></i></span>
@@ -179,9 +158,6 @@
         </div>
     </header>
 
-    <!-- ===================================================================== -->
-    <!-- CONTENIDO PRINCIPAL: VISTA EXPLORAR LIMPIA (SIN FOTOS FIJAS)          -->
-    <!-- ===================================================================== -->
     <main class="flex-1 max-w-6xl w-full mx-auto px-5 sm:px-8 py-10 sm:py-14">
 
         <section id="sec-explorar" class="space-y-10">
@@ -194,7 +170,6 @@
                 </p>
             </div>
 
-            <!-- Filtros rápidos por categoría y selector de zona (Vacíos, en espera de la BD) -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                 <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="category-bar">
                     <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white whitespace-nowrap">Todas las categorías</button>
@@ -208,9 +183,7 @@
                 </div>
             </div>
 
-            <!-- CUADRÍCULA DE OFERTAS: Vacía por defecto sin imágenes estáticas ni fotos falsas -->
             <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-                <!-- Estado limpio en espera de que el backend inyecte los datos de la base de datos -->
                 <div class="col-span-full clean-card rounded-3xl p-12 text-center text-[#526384] space-y-3">
                     <div class="w-14 h-14 rounded-full u-surface-30 u-accent-text flex items-center justify-center mx-auto">
                         <i data-lucide="package-open" class="w-7 h-7"></i>
@@ -223,17 +196,12 @@
             </div>
         </section>
 
-        <!-- SECCIONES PREPARADAS PARA EL BACKEND (Ocultas para no amontonarse) -->
         <section id="sec-empresas" class="hidden"></section>
         <section id="sec-composta" class="hidden"></section>
         <section id="sec-reservas" class="hidden"></section>
 
     </main>
 
-    <!-- ===================================================================== -->
-    <!-- PLANTILLA HTML QUE EL BACKEND USARÁ PARA RENDERIZAR CADA PRODUCTO     -->
-    <!-- (El backend clonará o mapeará este template al obtener datos de la BD)-->
-    <!-- ===================================================================== -->
     <template id="product-card-template">
         <article class="clean-card rounded-3xl overflow-hidden flex flex-col justify-between">
             <div class="cursor-pointer group">
@@ -272,9 +240,6 @@
         </div>
     </footer>
 
-    <!-- ===================================================================== -->
-    <!-- MODAL DE INICIO DE SESIÓN (SOLO ESTRUCTURA VISUAL)                    -->
-    <!-- ===================================================================== -->
     <div id="login-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
         <div onclick="closeLoginModal()" class="absolute inset-0 bg-neutral-950/45 backdrop-blur-xs"></div>
         
@@ -312,7 +277,6 @@
         </div>
     </div>
 
-    <!-- Inicialización de iconos Lucide -->
     <script>
         function openLoginModal() {
             document.getElementById('login-modal').classList.remove('hidden');

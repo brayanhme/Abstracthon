@@ -30,8 +30,6 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
 
   return (
     <section id="explorar" className="scroll-mt-24 space-y-8">
-      
-      {/* Encabezado limpio */}
       <div className="text-center md:text-left space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFE1C6] text-[#FF7A00] text-xs font-bold tracking-wide uppercase">
           <Sparkles className="w-3.5 h-3.5" />
@@ -45,10 +43,7 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
         </p>
       </div>
 
-      {/* Barra de Filtros rápidos */}
       <div className="bg-[#FFFFFF] p-4 sm:p-5 rounded-2xl border border-[#1E3A8A]/10 shadow-sm space-y-4">
-        
-        {/* Selector de zona y buscador */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-[#FF7A00] flex-shrink-0" />
@@ -76,7 +71,6 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
           </div>
         </div>
 
-        {/* Chips horizontales de categorías */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           {categories.map(category => {
             const isActive = selectedCategory === category;
@@ -97,7 +91,6 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
         </div>
       </div>
 
-      {/* Cuadrícula de productos: vacía por defecto */}
       {filteredOffers.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredOffers.map((item) => (
@@ -117,14 +110,13 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
             <PackageOpen className="w-7 h-7" />
           </div>
           <p className="font-heading font-bold text-lg text-[#1E3A8A]">
-            No hay alimentos disponibles por el momento
+            No hay productos disponibles por el momento
           </p>
           <p className="text-xs text-[#526384] max-w-sm mx-auto">
             Los productos cargados aparecerán en esta cuadrícula cuando estén disponibles.
           </p>
         </div>
       )}
-
     </section>
   );
 };

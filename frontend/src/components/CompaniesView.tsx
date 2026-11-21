@@ -21,8 +21,6 @@ export const CompaniesView: React.FC<CompaniesViewProps> = ({
 
   return (
     <section id="empresas" className="scroll-mt-24 space-y-8 pt-8 border-t border-[#1E3A8A]/10">
-      
-      {/* Encabezado Directorio */}
       <div className="space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFE1C6] text-[#FF7A00] text-xs font-bold uppercase tracking-wide">
           <Store className="w-3.5 h-3.5" />
@@ -36,7 +34,6 @@ export const CompaniesView: React.FC<CompaniesViewProps> = ({
         </p>
       </div>
 
-      {/* Buscador */}
       <div className="relative max-w-md">
         <input
           type="text"
@@ -48,7 +45,6 @@ export const CompaniesView: React.FC<CompaniesViewProps> = ({
         <Search className="w-4 h-4 text-[#526384] absolute left-3.5 top-3.5" />
       </div>
 
-      {/* Cuadrícula o estado vacío */}
       {filteredCompanies.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCompanies.map(comp => (
@@ -75,7 +71,6 @@ export const CompaniesView: React.FC<CompaniesViewProps> = ({
           </p>
         </div>
       )}
-
     </section>
   );
 };

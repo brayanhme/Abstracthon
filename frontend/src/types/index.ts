@@ -1,8 +1,3 @@
-/**
- * DEFINICIÓN DE ENTIDADES Y MODELOS DE BASE DE DATOS
- * Preparado para que el equipo de Backend mapee sus tablas/colecciones.
- */
-
 export interface Company {
   id: string;
   name: string;
