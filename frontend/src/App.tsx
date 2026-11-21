@@ -45,7 +45,7 @@ export function App() {
       <footer className="border-t border-[#1E3A8A]/10 bg-[#FFFFFF] py-8 text-center text-xs text-[#526384] mt-16">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-heading font-extrabold text-[#1E3A8A] text-sm">Q'omer</span>
+            <span className="font-heading font-extrabold text-[#1E3A8A] text-sm">ReAprovecha</span>
             <span>— Rescate alimentario y economía circular en Cochabamba, Bolivia</span>
           </div>
           <p className="text-[11px] text-[#526384]">

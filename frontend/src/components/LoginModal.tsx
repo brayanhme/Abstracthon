@@ -47,7 +47,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               <User className="w-6 h-6" />
             </div>
             <h3 className="font-heading font-extrabold text-2xl text-[#1E3A8A]">
-              Bienvenido a Q'omer
+              Bienvenido a ReAprovecha
             </h3>
             <p className="text-xs sm:text-sm text-[#526384]">
               Interfaz de acceso conectable al endpoint <code className="font-mono text-[#1E3A8A]">/api/auth</code>.

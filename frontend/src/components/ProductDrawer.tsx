@@ -150,7 +150,7 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({
                   <ShieldCheck className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#526384] font-medium">Garantía Q'omer</p>
+                  <p className="text-xs text-[#526384] font-medium">Garantía ReAprovecha</p>
                   <p className="text-xs text-[#526384] leading-relaxed">
                     Alimentos garantizados por la empresa emisora para retiro el mismo día.
                   </p>

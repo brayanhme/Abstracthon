@@ -14,7 +14,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-40 w-full bg-[#FFFBF7]/90 backdrop-blur-md border-b border-[#1E3A8A]/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         
-        {/* 1. Izquierda (Marca Q'omer) */}
+        {/* 1. Izquierda (Marca ReAprovecha) */}
         <a href="#explorar" className="flex items-center gap-3 group select-none flex-shrink-0">
           <div className="w-11 h-11 rounded-2xl bg-[#FF7A00] flex items-center justify-center shadow-md shadow-[#FF7A00]/25 group-hover:scale-105 transition-transform duration-200">
             <Leaf className="w-6 h-6 text-white transform -rotate-12 group-hover:rotate-0 transition-transform" />
@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-heading font-extrabold text-2xl tracking-tight text-[#1E3A8A]">
-                Q'omer
+                ReAprovecha
               </span>
               <span className="inline-block w-2 h-2 rounded-full bg-[#FF7A00]"></span>
             </div>

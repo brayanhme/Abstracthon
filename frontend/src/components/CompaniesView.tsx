@@ -32,7 +32,7 @@ export const CompaniesView: React.FC<CompaniesViewProps> = ({
           Empresas Aliadas en Cochabamba
         </h1>
         <p className="text-base text-[#526384] max-w-2xl">
-          Directorio oficial de comercios, supermercados y panaderías asociadas a Q'omer.
+          Directorio oficial de comercios, supermercados y panaderías asociadas a ReAprovecha.
         </p>
       </div>
 

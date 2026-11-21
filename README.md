@@ -1,6 +1,6 @@
-# Q'omer — Plataforma de Rescate Alimentario (Cochabamba)
+# ReAprovecha — Plataforma de Rescate Alimentario (Cochabamba)
 
-Frontend oficial para **Q'omer**, una plataforma de rescate alimentario y economía circular en **Cochabamba, Bolivia**.
+Frontend oficial para **ReAprovecha**, una plataforma de rescate alimentario y economía circular en **Cochabamba, Bolivia**.
 
 ---
 
