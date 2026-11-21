@@ -102,38 +102,7 @@
 <body class="min-h-screen flex flex-col antialiased selection:bg-orange-200">
 
     <!-- ===================================================================== -->
-    <!-- BARRA DE CONTROL UX: SELECTOR DE LAS 4 PALETAS (REGLA 60-30-10)       -->
-    <!-- ===================================================================== -->
-    <div class="bg-neutral-900 text-neutral-200 text-xs py-2 px-4 border-b border-neutral-800">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded bg-white/10 text-white font-medium">Vista Comprador</span>
-                <span class="text-neutral-400 hidden md:inline">Regla 60-30-10 • Navegación Burbuja • Flujo Directo</span>
-            </div>
-
-            <div class="flex flex-wrap items-center justify-center gap-1.5" id="palette-switcher">
-                <button onclick="applyTheme('citrus')" data-theme="citrus" class="theme-btn px-3 py-1 rounded-full bg-white/15 text-white font-medium flex items-center gap-1.5 ring-1 ring-white/50 transition cursor-pointer">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#FF7A00]"></span>
-                    <span>Fresh Citrus</span>
-                </button>
-                <button onclick="applyTheme('ramen')" data-theme="ramen" class="theme-btn px-3 py-1 rounded-full hover:bg-white/10 text-neutral-300 font-medium flex items-center gap-1.5 transition cursor-pointer">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#F27405]"></span>
-                    <span>Ramen & Especias</span>
-                </button>
-                <button onclick="applyTheme('sunset')" data-theme="sunset" class="theme-btn px-3 py-1 rounded-full hover:bg-white/10 text-neutral-300 font-medium flex items-center gap-1.5 transition cursor-pointer">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#9E2A2B]"></span>
-                    <span>Dark Sunset</span>
-                </button>
-                <button onclick="applyTheme('riviera')" data-theme="riviera" class="theme-btn px-3 py-1 rounded-full hover:bg-white/10 text-neutral-300 font-medium flex items-center gap-1.5 transition cursor-pointer">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#A9501C]"></span>
-                    <span>Riviera & Terracotta</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===================================================================== -->
-    <!-- HEADER MINIMALISTA CON BURBUJAS DIDÁCTICAS Y LOGIN                    -->
+    <!-- HEADER MINIMALISTA CON BURBUJAS DIDÁCTICAS Y LOGIN (100% FRONTEND)    -->
     <!-- ===================================================================== -->
     <header class="sticky top-0 z-30 u-bg-60/90 backdrop-blur-md border-b u-border smooth-ui">
         <div class="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-4">
@@ -149,7 +118,7 @@
                 </div>
             </div>
 
-            <!-- Navegación Principal: Burbujas Didácticas (Frontend Visual, sin navegación por JS para que backend lo implemente) -->
+            <!-- Navegación Principal: Burbujas Didácticas (Botones visuales de Frontend, sin navegación JS interna) -->
             <nav class="hidden md:flex items-center gap-3">
                 <button type="button" id="nav-explorar" class="bubble-nav-item is-active flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-card-30 u-ink-30 border u-border shadow-sm cursor-default">
                     <span class="bubble-dot w-8 h-8 rounded-full u-accent-10 text-white flex items-center justify-center shadow-2xs">
@@ -177,7 +146,7 @@
                         <i data-lucide="ticket" class="w-4 h-4"></i>
                     </span>
                     <span class="text-sm font-semibold tracking-tight">Mis Reservas</span>
-                    <span id="nav-res-count" class="w-5 h-5 flex items-center justify-center text-[11px] font-extrabold rounded-full u-accent-10 text-white shadow-2xs">2</span>
+                    <span id="nav-res-count" class="w-5 h-5 flex items-center justify-center text-[11px] font-extrabold rounded-full u-accent-10 text-white shadow-2xs">0</span>
                 </button>
             </nav>
 
@@ -190,7 +159,7 @@
             </div>
         </div>
 
-        <!-- Navegación Móvil en Burbujas -->
+        <!-- Navegación Móvil -->
         <div class="md:hidden flex items-center justify-around border-t u-border px-3 py-2.5 u-bg-60 gap-2 overflow-x-auto no-scrollbar">
             <button type="button" id="mnav-explorar" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-bold u-card-30 u-ink-30 border u-border shadow-2xs whitespace-nowrap">
                 <span class="w-6 h-6 rounded-full u-accent-10 text-white flex items-center justify-center"><i data-lucide="compass" class="w-3.5 h-3.5"></i></span>
@@ -212,13 +181,10 @@
     </header>
 
     <!-- ===================================================================== -->
-    <!-- CONTENIDO PRINCIPAL                                                   -->
+    <!-- CONTENIDO PRINCIPAL: VISTA EXPLORAR LIMPIA (SIN FOTOS FIJAS)          -->
     <!-- ===================================================================== -->
     <main class="flex-1 max-w-6xl w-full mx-auto px-5 sm:px-8 py-10 sm:py-14">
 
-        <!-- ================================================================= -->
-        <!-- APARTADO 1: EXPLORAR (VISTA PRINCIPAL VISIBLE)                    -->
-        <!-- ================================================================= -->
         <section id="sec-explorar" class="space-y-10">
             <div class="max-w-2xl space-y-3">
                 <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.12] u-ink-30">
@@ -229,17 +195,18 @@
                 </p>
             </div>
 
+            <!-- Filtros rápidos por categoría y selector de zona -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                 <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="category-bar">
-                    <button type="button" onclick="setCategory('Todos')" data-cat="Todos" class="cat-chip px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white transition cursor-pointer whitespace-nowrap">Todos</button>
-                    <button type="button" onclick="setCategory('Panadería')" data-cat="Panadería" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Panadería</button>
-                    <button type="button" onclick="setCategory('Lácteos y Helados')" data-cat="Lácteos y Helados" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Lácteos y Helados</button>
-                    <button type="button" onclick="setCategory('Supermercado')" data-cat="Supermercado" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Supermercado</button>
-                    <button type="button" onclick="setCategory('Embutidos y Frescos')" data-cat="Embutidos y Frescos" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Embutidos y Frescos</button>
+                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white transition cursor-pointer whitespace-nowrap">Todos</button>
+                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Panadería</button>
+                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Lácteos y Helados</button>
+                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Supermercado</button>
+                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer whitespace-nowrap">Embutidos y Frescos</button>
                 </div>
 
                 <div class="relative shrink-0">
-                    <select id="zone-filter" onchange="renderOffers()" class="appearance-none u-card-30 u-ink-30 border u-border rounded-full pl-4 pr-9 py-2 text-sm font-medium focus:outline-none cursor-pointer">
+                    <select id="zone-filter" class="appearance-none u-card-30 u-ink-30 border u-border rounded-full pl-4 pr-9 py-2 text-sm font-medium focus:outline-none cursor-pointer">
                         <option value="Todas">Toda Cochabamba</option>
                         <option value="Centro / El Prado">Centro / El Prado</option>
                         <option value="Zona Norte / Av. América">Zona Norte / Av. América</option>
@@ -250,107 +217,62 @@
                 </div>
             </div>
 
-            <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
-        </section>
-
-        <!-- ================================================================= -->
-        <!-- APARTADO 2: EMPRESAS ALIADAS (SECCIÓN OCULTA LISTA PARA BACKEND)  -->
-        <!-- ================================================================= -->
-        <section id="sec-empresas" class="hidden space-y-10">
-            <div id="companies-directory-view" class="space-y-8">
-                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                    <div class="max-w-2xl space-y-3">
-                        <span class="text-xs font-bold uppercase tracking-wider u-accent-text">Directorio Oficial</span>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight u-ink-30">
-                            Empresas y supermercados aliados
-                        </h2>
-                        <p class="text-base u-ink-muted leading-relaxed">
-                            Selecciona una empresa para explorar los paquetes próximos a vencer que subieron hoy en Cochabamba.
-                        </p>
+            <!-- CUADRÍCULA DE OFERTAS: Vacía por defecto sin imágenes estáticas ni fotos falsas -->
+            <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <!-- Estado limpio en espera de que el backend inyecte los datos de la base de datos -->
+                <div class="col-span-full clean-card rounded-3xl p-12 text-center text-[#526384] space-y-3">
+                    <div class="w-14 h-14 rounded-full u-surface-30 u-accent-text flex items-center justify-center mx-auto">
+                        <i data-lucide="package-open" class="w-7 h-7"></i>
                     </div>
-
-                    <div class="relative w-full sm:w-64 shrink-0">
-                        <i data-lucide="search" class="w-4 h-4 u-ink-muted absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                        <input type="text" id="company-search" oninput="renderCompaniesDirectory()" placeholder="Buscar empresa..." class="w-full pl-10 pr-4 py-2.5 rounded-full u-card-30 u-ink-30 border u-border text-sm focus:outline-none">
-                    </div>
-                </div>
-
-                <div id="companies-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            </div>
-
-            <div id="company-profile-view" class="hidden space-y-8">
-                <button type="button" onclick="closeCompanyProfile()" class="inline-flex items-center gap-2 text-sm font-semibold u-ink-muted hover:u-ink-30 transition cursor-pointer">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                    <span>Volver a todas las empresas</span>
-                </button>
-
-                <div id="company-profile-header" class="clean-card rounded-3xl p-6 sm:p-8"></div>
-
-                <div class="space-y-5">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-xl font-bold u-ink-30">Productos disponibles para rescate</h3>
-                        <span id="comp-offers-count" class="text-xs font-semibold px-3 py-1 rounded-full u-surface-30 u-ink-30"></span>
-                    </div>
-                    <div id="company-offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
-                </div>
-
-                <div class="pt-4 border-t u-border space-y-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h4 class="text-base font-bold u-ink-30">Excedentes orgánicos para composta y granjas</h4>
-                            <p class="text-xs u-ink-muted">Lotes que superaron la fecha de consumo humano disponibles para aprovechamiento agrícola</p>
-                        </div>
-                        <span id="comp-compost-count" class="text-xs font-semibold u-nature-text"></span>
-                    </div>
-                    <div id="company-compost-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <h3 class="font-heading font-bold text-lg u-ink-30">No hay productos disponibles por el momento</h3>
+                    <p class="text-xs u-ink-muted max-w-sm mx-auto">
+                        Los productos registrados en la base de datos aparecerán aquí dinámicamente cuando el backend consulte la tabla de ofertas.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- ================================================================= -->
-        <!-- APARTADO 3: COMPOSTA Y EXCEDENTES ORGÁNICOS (LISTO PARA BACKEND)  -->
-        <!-- ================================================================= -->
-        <section id="sec-composta" class="hidden space-y-10">
-            <div class="max-w-2xl space-y-3">
-                <span class="text-xs font-bold uppercase tracking-wider u-nature-text">Economía Circular • Cero Desperdicio</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight u-ink-30">
-                    Lotes para composta y alimento animal
-                </h2>
-                <p class="text-base u-ink-muted leading-relaxed">
-                    Alimentos que ya pasaron su fecha de consumo humano, clasificados por empresas de Cochabamba para potenciar cultivos, lombricultura o granjas locales.
-                </p>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-2" id="compost-filter-bar">
-                <button type="button" onclick="setCompostFilter('Todos')" data-cfilter="Todos" class="comp-chip px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white transition cursor-pointer">Todos los lotes</button>
-                <button type="button" onclick="setCompostFilter('Compostaje / Humus')" data-cfilter="Compostaje / Humus" class="comp-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer">Compostaje / Humus</button>
-                <button type="button" onclick="setCompostFilter('Alimento Animal')" data-cfilter="Alimento Animal" class="comp-chip px-4 py-2 rounded-full text-sm font-medium u-card-30 u-ink-30 border u-border hover:opacity-80 transition cursor-pointer">Alimento Animal</button>
-            </div>
-
-            <div id="compost-main-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-        </section>
-
-        <!-- ================================================================= -->
-        <!-- APARTADO 4: MIS RESERVAS Y UBICACIÓN (LISTO PARA BACKEND)         -->
-        <!-- ================================================================= -->
-        <section id="sec-reservas" class="hidden space-y-8">
-            <div class="max-w-2xl space-y-2">
-                <span class="text-xs font-bold uppercase tracking-wider u-accent-text">Tus Pedidos Activos</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight u-ink-30">
-                    Mis Reservas y Punto de Retiro
-                </h2>
-                <p class="text-base u-ink-muted leading-relaxed">
-                    Selecciona una reserva para ver su ubicación exacta en Cochabamba y presenta tu código al recoger.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div id="reservations-list" class="lg:col-span-7 space-y-4"></div>
-                <div id="reservation-location-panel" class="lg:col-span-5 lg:sticky lg:top-28"></div>
-            </div>
-        </section>
+        <!-- SECCIONES PREPARADAS PARA EL BACKEND (Ocultas para no amontonarse) -->
+        <section id="sec-empresas" class="hidden"></section>
+        <section id="sec-composta" class="hidden"></section>
+        <section id="sec-reservas" class="hidden"></section>
 
     </main>
+
+    <!-- ===================================================================== -->
+    <!-- PLANTILLA HTML QUE EL BACKEND USARÁ PARA RENDERIZAR CADA PRODUCTO     -->
+    <!-- (El backend clonará o mapeará este template al obtener datos de la BD)-->
+    <!-- ===================================================================== -->
+    <template id="product-card-template">
+        <article class="clean-card rounded-3xl overflow-hidden flex flex-col justify-between">
+            <div class="cursor-pointer group">
+                <div class="relative h-48 overflow-hidden bg-neutral-100">
+                    <img data-field="img" src="" alt="Producto" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <span data-field="stock" class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow-xs backdrop-blur-md u-card-30/95 u-ink-30 border u-border">
+                        Stock disponible
+                    </span>
+                </div>
+                <div class="p-6 pb-4 space-y-2">
+                    <div class="flex items-center justify-between gap-2 text-xs">
+                        <span data-field="biz" class="font-semibold u-ink-30">Empresa</span>
+                        <span data-field="zone" class="u-ink-muted truncate">Zona</span>
+                    </div>
+                    <h3 data-field="title" class="font-bold text-lg u-ink-30 leading-snug pt-0.5">Título del Producto</h3>
+                    <p data-field="time" class="text-xs u-ink-muted">Horario de retiro</p>
+                </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-3 flex items-center justify-between">
+                <div>
+                    <span data-field="oldPrice" class="text-xs line-through u-ink-muted block">Bs. 0</span>
+                    <span data-field="newPrice" class="font-heading text-2xl font-extrabold u-ink-30">Bs. 0</span>
+                </div>
+                <button type="button" class="px-5 py-2.5 rounded-xl text-white text-sm font-semibold u-accent-10 cursor-pointer shadow-xs">
+                    Reservar
+                </button>
+            </div>
+        </article>
+    </template>
 
     <footer class="border-t u-border py-8 px-5 sm:px-8 mt-12">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs u-ink-muted">
@@ -360,60 +282,7 @@
     </footer>
 
     <!-- ===================================================================== -->
-    <!-- PANEL LATERAL: DETALLE DE PRODUCTO                                    -->
-    <!-- ===================================================================== -->
-    <div id="side-drawer" class="fixed inset-0 z-50 hidden">
-        <div onclick="closeDrawer()" class="absolute inset-0 bg-neutral-950/40 backdrop-blur-xs transition-opacity"></div>
-        
-        <aside class="absolute right-0 top-0 bottom-0 w-full max-w-md u-card-30 shadow-2xl flex flex-col justify-between p-6 sm:p-8 overflow-y-auto">
-            
-            <div id="drawer-detail-view" class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold uppercase tracking-wider u-accent-text">Detalle del paquete</span>
-                    <button type="button" onclick="closeDrawer()" class="p-2 rounded-full hover:bg-black/5 u-ink-30 cursor-pointer">
-                        <i data-lucide="x" class="w-5 h-5"></i>
-                    </button>
-                </div>
-
-                <img id="det-img" src="" onerror="this.src='https://placehold.co/600x400/FFE1C6/1E3A8A?text=Qomer'" alt="Detalle" class="w-full h-52 object-cover rounded-2xl">
-
-                <div class="space-y-2">
-                    <span id="det-biz" class="text-xs font-semibold u-nature-text"></span>
-                    <h3 id="det-title" class="text-2xl font-extrabold u-ink-30 leading-tight"></h3>
-                    <p id="det-desc" class="text-sm u-ink-muted leading-relaxed pt-1"></p>
-                </div>
-
-                <div class="u-bg-60 p-4 rounded-2xl space-y-2 text-xs u-ink-30">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="clock" class="w-4 h-4 u-accent-text"></i>
-                        <span id="det-time" class="font-medium"></span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="map-pin" class="w-4 h-4 u-accent-text"></i>
-                        <span id="det-zone" class="font-medium"></span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="layers" class="w-4 h-4 u-nature-text"></i>
-                        <span id="det-stock" class="font-semibold"></span>
-                    </div>
-                </div>
-
-                <div class="pt-4 border-t u-border flex items-center justify-between">
-                    <div>
-                        <span id="det-old" class="text-xs line-through u-ink-muted block"></span>
-                        <span id="det-new" class="font-heading text-3xl font-extrabold u-ink-30"></span>
-                    </div>
-                    <button type="button" id="det-add-btn" class="px-6 py-3.5 rounded-xl u-accent-10 text-white font-semibold text-sm shadow-sm transition cursor-pointer">
-                        Reservar ahora
-                    </button>
-                </div>
-            </div>
-
-        </aside>
-    </div>
-
-    <!-- ===================================================================== -->
-    <!-- MODAL DE INICIO DE SESIÓN                                            -->
+    <!-- MODAL DE INICIO DE SESIÓN (SOLO ESTRUCTURA VISUAL)                    -->
     <!-- ===================================================================== -->
     <div id="login-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
         <div onclick="closeLoginModal()" class="absolute inset-0 bg-neutral-950/45 backdrop-blur-xs"></div>
@@ -434,385 +303,26 @@
                 </button>
             </div>
 
-            <form onsubmit="handleUserLogin(event)" class="space-y-4">
+            <form class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold u-ink-30 mb-1.5">Tu nombre o apodo</label>
-                    <input type="text" id="login-name" required value="Camila Mamani" class="w-full px-4 py-3 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none">
+                    <input type="text" placeholder="Ej. Camila Mamani" class="w-full px-4 py-3 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none">
                 </div>
 
                 <div>
                     <label class="block text-xs font-semibold u-ink-30 mb-1.5">Correo electrónico o celular</label>
-                    <input type="text" id="login-email" required value="camila.cbba@correo.com" class="w-full px-4 py-3 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none">
+                    <input type="text" placeholder="Ej. 70712345 o correo@ejemplo.com" class="w-full px-4 py-3 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none">
                 </div>
 
                 <button type="submit" class="w-full py-3.5 rounded-xl u-accent-10 text-white font-semibold text-sm shadow-sm transition cursor-pointer">
                     Ingresar a mi cuenta
                 </button>
             </form>
-
-            <div class="pt-3 border-t u-border text-center">
-                <p class="text-xs u-ink-muted">¿Eres una empresa de alimentos? <button type="button" onclick="closeLoginModal(); showToast('Portal empresarial disponible en versión B2B')" class="font-semibold u-accent-text hover:underline cursor-pointer">Acceso aliados</button></p>
-            </div>
         </div>
     </div>
 
-    <!-- ===================================================================== -->
-    <!-- NOTIFICACIÓN SUTIL (TOAST)                                            -->
-    <!-- ===================================================================== -->
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
-        <div class="bg-neutral-900 text-white px-5 py-3 rounded-full shadow-lg text-xs sm:text-sm font-medium flex items-center gap-2.5">
-            <span class="w-2 h-2 rounded-full u-accent-10"></span>
-            <span id="toast-text">Listo</span>
-        </div>
-    </div>
-
-    <!-- ===================================================================== -->
-    <!-- LÓGICA FRONTEND: SISTEMA DE PALETAS Y RENDER DE OFERTAS               -->
-    <!-- ===================================================================== -->
+    <!-- Inicialización de iconos Lucide -->
     <script>
-        // 1. APLICACIÓN DE LAS 4 PALETAS BAJO LA REGLA 60-30-10
-        const THEMES = {
-            citrus: {
-                '--bg-60': '#FFFBF7',
-                '--surface-30': '#FFE1C6',
-                '--card-30': '#FFFFFF',
-                '--ink-30': '#1E3A8A',
-                '--ink-muted': '#526384',
-                '--accent-10': '#FF7A00',
-                '--accent-hover': '#E06800',
-                '--nature-tag': '#6B8F5E',
-                '--soft-pill': '#9EC5E8',
-                '--border-subtle': 'rgba(30, 58, 138, 0.09)'
-            },
-            ramen: {
-                '--bg-60': '#FDF9F3',
-                '--surface-30': '#F2DEC8',
-                '--card-30': '#FFFFFF',
-                '--ink-30': '#591902',
-                '--ink-muted': '#732E07',
-                '--accent-10': '#F27405',
-                '--accent-hover': '#D66400',
-                '--nature-tag': '#732E07',
-                '--soft-pill': '#F2A922',
-                '--border-subtle': 'rgba(89, 25, 2, 0.10)'
-            },
-            sunset: {
-                '--bg-60': '#FEFCF4',
-                '--surface-30': '#FFF3B0',
-                '--card-30': '#FFFFFF',
-                '--ink-30': '#335C67',
-                '--ink-muted': '#540B0E',
-                '--accent-10': '#9E2A2B',
-                '--accent-hover': '#7E1E1F',
-                '--nature-tag': '#335C67',
-                '--soft-pill': '#E09F3E',
-                '--border-subtle': 'rgba(51, 92, 103, 0.11)'
-            },
-            riviera: {
-                '--bg-60': '#F8F4EC',
-                '--surface-30': '#EDE2CE',
-                '--card-30': '#FFFFFF',
-                '--ink-30': '#183451',
-                '--ink-muted': '#556577',
-                '--accent-10': '#A9501C',
-                '--accent-hover': '#8B3F13',
-                '--nature-tag': '#183451',
-                '--soft-pill': '#D4AF83',
-                '--border-subtle': 'rgba(24, 52, 81, 0.10)'
-            }
-        };
-
-        function applyTheme(key) {
-            const vars = THEMES[key];
-            if (!vars) return;
-            Object.entries(vars).forEach(([prop, val]) => document.documentElement.style.setProperty(prop, val));
-
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                if (btn.dataset.theme === key) {
-                    btn.classList.add('bg-white/15', 'text-white', 'ring-1', 'ring-white/50');
-                    btn.classList.remove('text-neutral-300');
-                } else {
-                    btn.classList.remove('bg-white/15', 'text-white', 'ring-1', 'ring-white/50');
-                    btn.classList.add('text-neutral-300');
-                }
-            });
-        }
-
-        // 2. DIRECTORIO DE EMPRESAS REALES EN COCHABAMBA CON LOGOTIPOS SVG
-        const COMPANIES = [
-            {
-                id: 'pil',
-                name: 'PIL Andina',
-                category: 'Lácteos y Bebidas',
-                zone: 'Av. Blanco Galindo',
-                address: 'Planta Industrial Av. Blanco Galindo Km 10.5, Cochabamba',
-                description: 'Líder en productos lácteos, yogures, quesos y jugos.',
-                logoSvg: `
-                    <svg viewBox="0 0 80 80" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="80" height="80" rx="18" fill="#0055A5"/>
-                        <ellipse cx="40" cy="41" rx="31" ry="20" fill="#FFFFFF"/>
-                        <ellipse cx="40" cy="41" rx="27" ry="16" fill="#0072CE"/>
-                        <text x="40" y="48" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="22" letter-spacing="-0.5">PIL</text>
-                        <circle cx="57" cy="28" r="4" fill="#38BDF8"/>
-                    </svg>`
-            },
-            {
-                id: 'delizia',
-                name: 'Delizia',
-                category: 'Lácteos y Helados',
-                zone: 'Zona Norte / Av. América',
-                address: 'Agencia Distribuidora Av. América Esq. Libertador, Cochabamba',
-                description: 'Helados, leches saborizadas, yogures y néctares.',
-                logoSvg: `
-                    <svg viewBox="0 0 80 80" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="80" height="80" rx="18" fill="#D91E2A"/>
-                        <path d="M12 48 Q40 22 68 48 Q40 62 12 48 Z" fill="#FACC15"/>
-                        <text x="40" y="46" text-anchor="middle" fill="#B91C1C" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="15.5">Delizia</text>
-                    </svg>`
-            },
-            {
-                id: 'hipermaxi',
-                name: 'Hipermaxi',
-                category: 'Supermercado',
-                zone: 'Centro / El Prado',
-                address: 'Sucursal El Prado y Av. Juan de la Rosa, Cochabamba',
-                description: 'Cadena de supermercados con panadería propia, rotisería, frutas y verduras.',
-                logoSvg: `
-                    <svg viewBox="0 0 80 80" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="80" height="80" rx="18" fill="#1D4ED8"/>
-                        <rect x="10" y="24" width="60" height="32" rx="8" fill="#FACC15"/>
-                        <text x="40" y="44" text-anchor="middle" fill="#1E3A8A" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="11.5" letter-spacing="-0.3">HIPERMAXI</text>
-                        <circle cx="40" cy="16" r="4" fill="#EF4444"/>
-                    </svg>`
-            },
-            {
-                id: 'icnorte',
-                name: 'IC Norte',
-                category: 'Supermercado',
-                zone: 'Zona Norte / Av. América',
-                address: 'Av. América Oeste #1145, Zona Norte, Cochabamba',
-                description: 'Supermercado con sección gourmet, pastelería artesanal y frutas seleccionadas.',
-                logoSvg: `
-                    <svg viewBox="0 0 80 80" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="80" height="80" rx="18" fill="#15803D"/>
-                        <circle cx="40" cy="40" r="26" fill="#FFFFFF"/>
-                        <text x="40" y="39" text-anchor="middle" fill="#15803D" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="18">IC</text>
-                        <text x="40" y="52" text-anchor="middle" fill="#EA580C" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="10">NORTE</text>
-                    </svg>`
-            },
-            {
-                id: 'sofia',
-                name: 'Sofía Alimentos',
-                category: 'Embutidos y Frescos',
-                zone: 'Av. Blanco Galindo',
-                address: 'Centro Logístico Av. Blanco Galindo Km 6, Cochabamba',
-                description: 'Productos cárnicos, fiambres, embutidos y congelados con cadena de frío.',
-                logoSvg: `
-                    <svg viewBox="0 0 80 80" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="80" height="80" rx="18" fill="#B91C1C"/>
-                        <circle cx="40" cy="40" r="27" fill="#FEF08A" stroke="#F59E0B" stroke-width="3"/>
-                        <text x="40" y="45" text-anchor="middle" fill="#B91C1C" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="17">Sofía</text>
-                    </svg>`
-            },
-            {
-                id: 'victoria',
-                name: 'Panadería Victoria',
-                category: 'Panadería',
-                zone: 'Tiquipaya / Cala Cala',
-                address: 'Av. Simón López y Av. Ecológica, Cala Cala - Tiquipaya',
-                description: 'Panadería y pastelería tradicional cochabambina con pan artesanal.',
-                logoSvg: `
-                    <svg viewBox="0 0 80 80" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="80" height="80" rx="18" fill="#92400E"/>
-                        <path d="M22 48 C22 32, 58 32, 58 48 Z" fill="#FBBF24"/>
-                        <text x="40" y="61" text-anchor="middle" fill="#FEF3C7" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="11">VICTORIA</text>
-                    </svg>`
-            }
-        ];
-
-        // 3. PRODUCTOS POR VENCER (LISTA VISUAL MAQUETADA)
-        let offers = [
-            {
-                id: 1,
-                companyId: 'pil',
-                biz: 'PIL Andina',
-                title: 'Pack Familiar 4L Yogurt Frutado + Queso',
-                category: 'Lácteos y Helados',
-                zone: 'Av. Blanco Galindo',
-                oldPrice: 52,
-                newPrice: 18,
-                stock: 5,
-                time: 'Vence en 36 horas • Retiro Agencia',
-                desc: 'Incluye 2 botellas de yogurt bebible frutilla/durazno de 2L y 1 queso fresco prensado de 400g en cadena de frío certificada.',
-                img: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=700&q=80'
-            },
-            {
-                id: 2,
-                companyId: 'hipermaxi',
-                biz: 'Hipermaxi',
-                title: 'Caja Sorpresa Panadería & Rotisería',
-                category: 'Panadería',
-                zone: 'Centro / El Prado',
-                oldPrice: 48,
-                newPrice: 16,
-                stock: 3,
-                time: 'Recoger hoy hasta las 21:00',
-                desc: 'Surtido variado de pan recién horneado del día, masitas dulces y porciones listas de rotisería de la sucursal El Prado.',
-                img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=700&q=80'
-            },
-            {
-                id: 3,
-                companyId: 'icnorte',
-                biz: 'IC Norte',
-                title: 'Canasta 4 kg Frutas y Verduras Frescas',
-                category: 'Supermercado',
-                zone: 'Zona Norte / Av. América',
-                oldPrice: 42,
-                newPrice: 14,
-                stock: 7,
-                time: 'Recoger hoy hasta las 20:30',
-                desc: 'Frutas maduras ideales para jugos y hortalizas seleccionadas del sector fresco de IC Norte Av. América.',
-                img: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=700&q=80'
-            },
-            {
-                id: 4,
-                companyId: 'delizia',
-                biz: 'Delizia',
-                title: 'Pack Helados Cremosos 2.5L + Néctares',
-                category: 'Lácteos y Helados',
-                zone: 'Zona Norte / Av. América',
-                oldPrice: 55,
-                newPrice: 20,
-                stock: 4,
-                time: 'Vence en 48 horas • Retiro Agencia',
-                desc: '1 bote familiar de helado de vainilla/chocolate y 4 cajas de néctar de frutas de 1 litro.',
-                img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=700&q=80'
-            },
-            {
-                id: 5,
-                companyId: 'sofia',
-                biz: 'Sofía Alimentos',
-                title: 'Combo Fiambres, Jamón y Salchichas (1.2 kg)',
-                category: 'Embutidos y Frescos',
-                zone: 'Av. Blanco Galindo',
-                oldPrice: 60,
-                newPrice: 22,
-                stock: 2,
-                time: 'Vence en 2 días • Refrigerado',
-                desc: 'Paquete sellado al vacío con jamón cocido, mortadela primavera y salchichas tipo Viena.',
-                img: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=700&q=80'
-            },
-            {
-                id: 6,
-                companyId: 'victoria',
-                biz: 'Panadería Victoria',
-                title: 'Bolsa Artesanal Empanadas y Pan Integral',
-                category: 'Panadería',
-                zone: 'Tiquipaya / Cala Cala',
-                oldPrice: 38,
-                newPrice: 13,
-                stock: 6,
-                time: 'Recoger hoy hasta las 20:00',
-                desc: '6 empanadas horneadas de queso, 2 panes integrales de molde y rollos de canela del día.',
-                img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=80'
-            }
-        ];
-
-        let activeCategory = 'Todos';
-
-        function createOfferCardHTML(item) {
-            const comp = COMPANIES.find(c => c.id === item.companyId);
-            const logoMini = comp ? `<div class="w-6 h-6 rounded-md overflow-hidden shrink-0 shadow-2xs">${comp.logoSvg}</div>` : '';
-            const outOfStock = item.stock <= 0;
-
-            return `
-                <article class="clean-card rounded-3xl overflow-hidden flex flex-col justify-between ${outOfStock ? 'opacity-70' : ''}">
-                    <div onclick="openProductDetail(${item.id})" class="cursor-pointer group">
-                        <div class="relative h-48 overflow-hidden bg-neutral-100">
-                            <img src="${item.img}" onerror="this.src='https://placehold.co/600x400/FFE1C6/1E3A8A?text=Qomer'" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow-xs backdrop-blur-md ${outOfStock ? 'bg-neutral-900/85 text-white' : 'u-card-30/95 u-ink-30 border u-border'}">
-                                ${outOfStock ? 'Agotado' : `Stock: ${item.stock} disp.`}
-                            </span>
-                        </div>
-                        <div class="p-6 pb-4 space-y-2">
-                            <div class="flex items-center justify-between gap-2 text-xs">
-                                <div class="flex items-center gap-2 font-semibold u-ink-30">
-                                    ${logoMini}
-                                    <span>${item.biz}</span>
-                                </div>
-                                <span class="u-ink-muted truncate">${item.zone}</span>
-                            </div>
-                            <h3 class="font-bold text-lg u-ink-30 leading-snug pt-0.5">${item.title}</h3>
-                            <p class="text-xs u-ink-muted">${item.time}</p>
-                        </div>
-                    </div>
-
-                    <div class="px-6 pb-6 pt-3 flex items-center justify-between">
-                        <div>
-                            <span class="text-xs line-through u-ink-muted block">Bs. ${item.oldPrice}</span>
-                            <span class="font-heading text-2xl font-extrabold u-ink-30">Bs. ${item.newPrice}</span>
-                        </div>
-                        <button type="button" onclick="openProductDetail(${item.id})" ${outOfStock ? 'disabled' : ''} class="px-5 py-2.5 rounded-xl text-white text-sm font-semibold shadow-xs transition ${outOfStock ? 'bg-neutral-400 cursor-not-allowed' : 'u-accent-10 cursor-pointer'}">
-                            ${outOfStock ? 'Sin stock' : 'Reservar'}
-                        </button>
-                    </div>
-                </article>
-            `;
-        }
-
-        function setCategory(cat) {
-            activeCategory = cat;
-            document.querySelectorAll('.cat-chip').forEach(chip => {
-                if (chip.dataset.cat === cat) {
-                    chip.classList.add('u-ink-bg', 'text-white', 'font-semibold');
-                    chip.classList.remove('u-card-30', 'u-ink-30', 'border', 'u-border', 'font-medium');
-                } else {
-                    chip.classList.remove('u-ink-bg', 'text-white', 'font-semibold');
-                    chip.classList.add('u-card-30', 'u-ink-30', 'border', 'u-border', 'font-medium');
-                }
-            });
-            renderOffers();
-        }
-
-        function renderOffers() {
-            const grid = document.getElementById('offers-grid');
-            if (!grid) return;
-            const zone = document.getElementById('zone-filter').value;
-
-            const filtered = offers.filter(o => {
-                const matchCat = activeCategory === 'Todos' || o.category === activeCategory;
-                const matchZone = zone === 'Todas' || o.zone === zone;
-                return matchCat && matchZone;
-            });
-
-            grid.innerHTML = filtered.map(item => createOfferCardHTML(item)).join('');
-            if (window.lucide) lucide.createIcons();
-        }
-
-        // DETALLE DE PRODUCTO
-        function openProductDetail(id) {
-            const item = offers.find(o => o.id === id);
-            if (!item) return;
-
-            document.getElementById('det-img').src = item.img;
-            document.getElementById('det-biz').textContent = item.biz;
-            document.getElementById('det-title').textContent = item.title;
-            document.getElementById('det-desc').textContent = item.desc;
-            document.getElementById('det-time').textContent = item.time;
-            document.getElementById('det-zone').textContent = item.zone;
-            document.getElementById('det-stock').textContent = item.stock > 0 ? `Stock disponible: ${item.stock} unidades` : 'Agotado por hoy';
-            document.getElementById('det-old').textContent = `Antes Bs. ${item.oldPrice}`;
-            document.getElementById('det-new').textContent = `Bs. ${item.newPrice}`;
-
-            document.getElementById('side-drawer').classList.remove('hidden');
-            if (window.lucide) lucide.createIcons();
-        }
-
-        function closeDrawer() {
-            document.getElementById('side-drawer').classList.add('hidden');
-        }
-
-        // MODAL DE LOGIN
         function openLoginModal() {
             document.getElementById('login-modal').classList.remove('hidden');
             if (window.lucide) lucide.createIcons();
@@ -822,28 +332,7 @@
             document.getElementById('login-modal').classList.add('hidden');
         }
 
-        function handleUserLogin(e) {
-            e.preventDefault();
-            const fullName = document.getElementById('login-name').value.trim();
-            const firstName = fullName.split(' ')[0] || 'Usuario';
-            document.getElementById('login-btn-label').textContent = `Hola, ${firstName}`;
-            closeLoginModal();
-            showToast(`¡Sesión iniciada como ${fullName}!`);
-        }
-
-        let toastTimer;
-        function showToast(msg) {
-            const el = document.getElementById('toast');
-            document.getElementById('toast-text').textContent = msg;
-            el.classList.remove('opacity-0', 'translate-y-3');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => el.classList.add('opacity-0', 'translate-y-3'), 3000);
-        }
-
-        // Inicializar directamente con Fresh Citrus
         window.addEventListener('DOMContentLoaded', () => {
-            applyTheme('citrus');
-            renderOffers();
             if (window.lucide) lucide.createIcons();
         });
     </script>
