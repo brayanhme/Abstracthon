@@ -1,5 +1,6 @@
 import { reservarUnidad } from './reserva-compra'
 import { supabase } from './lib/supabase'
+import { iconoAlimento } from './lib/food-icon'
 
 type Oferta = {
   id: string
@@ -87,13 +88,33 @@ function mostrarOfertas() {
     llenar('oldPrice', `Bs. ${Number(oferta.original_price).toFixed(2)}`)
     llenar('newPrice', `Bs. ${Number(oferta.discounted_price).toFixed(2)}`)
 
+    // Ícono representativo: no se inventan fotografías de productos reales.
     const imagen = tarjeta.querySelector('[data-field="img"]')
 
     if (imagen) {
       const marcador = document.createElement('div')
       marcador.className =
-        'w-full h-full flex items-center justify-center text-5xl'
-      marcador.textContent = '🍽️'
+        'w-full h-full flex flex-col items-center justify-center gap-2 ' +
+        'bg-gradient-to-br from-orange-50 via-amber-100 to-emerald-50'
+
+      const icono = document.createElement('span')
+      icono.className =
+        'text-7xl drop-shadow-sm transition-transform duration-300 ' +
+        'group-hover:scale-110'
+      icono.textContent = iconoAlimento(
+        oferta.products?.name ?? '',
+        oferta.products?.categories?.name ?? ''
+      )
+      icono.setAttribute('role', 'img')
+      icono.setAttribute(
+        'aria-label',
+        `Ícono de ${oferta.products?.name ?? 'alimento'}`
+      )
+
+      const nota = document.createElement('span')
+      nota.className = 'text-[10px] font-semibold tracking-wide text-emerald-900/70'
+      nota.textContent = 'Imagen ilustrativa'
+      marcador.append(icono, nota)
       imagen.replaceWith(marcador)
     }
 

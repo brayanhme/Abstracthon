@@ -1,4 +1,5 @@
 import { supabase } from './lib/supabase'
+import { iconoAlimento } from './lib/food-icon'
 
 type Lote = {
   id: string
@@ -80,8 +81,9 @@ function renderProductos() {
       'clean-card rounded-3xl overflow-hidden flex flex-col'
 
     tarjeta.innerHTML = `
-      <div class="h-28 u-surface-30 flex items-center justify-center text-5xl">
-        📦
+      <div class="h-36 bg-gradient-to-br from-orange-50 via-amber-100 to-emerald-50 flex flex-col items-center justify-center gap-1">
+        <span data-icono role="img" class="text-6xl drop-shadow-sm"></span>
+        <span class="text-[10px] font-semibold text-emerald-900/70">Imagen ilustrativa</span>
       </div>
       <div class="p-6 space-y-3">
         <span data-categoria class="text-xs font-semibold u-nature-text"></span>
@@ -101,6 +103,7 @@ function renderProductos() {
       if (nodo) nodo.textContent = texto
     }
 
+    poner('[data-icono]', iconoAlimento(fila.nombre, fila.categoria))
     poner('[data-categoria]', fila.categoria)
     poner('[data-nombre]', fila.nombre)
     poner(
