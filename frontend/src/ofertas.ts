@@ -1,3 +1,4 @@
+import { reservarUnidad } from './reserva-compra'
 import { supabase } from './lib/supabase'
 
 type Oferta = {
@@ -96,13 +97,27 @@ function mostrarOfertas() {
       imagen.replaceWith(marcador)
     }
 
-    const boton = tarjeta.querySelector('button')
+    const boton = tarjeta.querySelector<HTMLButtonElement>('button')
 
     if (boton) {
-      boton.disabled = true
-      boton.textContent = 'Reserva en preparación'
-      boton.title = 'La reserva desde la web se conectará próximamente'
-      boton.classList.add('opacity-60', 'cursor-not-allowed')
+      boton.textContent = 'Reservar 1 unidad'
+
+      boton.addEventListener('click', async () => {
+        boton.disabled = true
+
+        try {
+          const creada = await reservarUnidad(
+            oferta.id,
+            Number(oferta.discounted_price)
+          )
+
+          if (creada) {
+            await cargarOfertas()
+          }
+        } finally {
+          boton.disabled = false
+        }
+      })
     }
 
     grid.appendChild(tarjeta)
