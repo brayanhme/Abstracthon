@@ -92,14 +92,23 @@ La interfaz contempla espacios y conceptos relacionados con composta y reutiliza
 
 ### Flujo de publicación y reserva
 
-## Una empresa accede al portal empresarial con su cuenta.
-## El sistema identifica la organización a la que pertenece y verifica las condiciones para operar.
-## La empresa publica un producto y su lote, indicando información comercial y fecha de vencimiento.
-## El consumidor consulta las ofertas disponibles desde el portal público.
-## El consumidor autenticado solicita una reserva de unidades.
-## El sistema valida la disponibilidad y registra la reserva.
-## En el retiro, el personal autorizado confirma la entrega.
-## La información de inventario y del estado de la reserva se actualiza en la base de datos.
+1. **Acceso empresarial:** una empresa inicia sesión en el portal empresarial con su cuenta.
+
+2. **Validación de organización:** el sistema identifica la organización a la que pertenece y verifica las condiciones necesarias para operar.
+
+3. **Publicación de productos:** la empresa registra un producto y su lote, incluyendo precios, disponibilidad y fecha de vencimiento.
+
+4. **Exploración de ofertas:** el consumidor consulta los productos disponibles desde el portal público.
+
+5. **Solicitud de reserva:** el consumidor autenticado selecciona los productos y solicita una reserva.
+
+6. **Validación de disponibilidad:** el sistema comprueba el inventario y registra la reserva.
+
+7. **Confirmación de entrega:** durante el retiro, el personal autorizado confirma la entrega del producto.
+
+8. **Actualización de datos:** el sistema actualiza el inventario y el estado de la reserva en la base de datos.
+
+**Nota:** la reserva digital no equivale a un pago electrónico. La integración de pasarelas de pago no forma parte de las funcionalidades confirmadas del MVP.
 
 La reserva digital no equivale, por sí sola, a un pago electrónico. La integración de pasarelas de pago no forma parte de las operaciones confirmadas de este MVP.
 
