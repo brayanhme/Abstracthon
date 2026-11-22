@@ -1,6 +1,6 @@
 import { supabase } from './lib/supabase'
 
-function solicitarAcceso(): Promise<boolean> {
+export function solicitarAcceso(): Promise<boolean> {
   return new Promise(resolve => {
     const capa = document.createElement('div')
 

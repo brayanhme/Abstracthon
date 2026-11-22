@@ -145,6 +145,7 @@ async function validarAcceso() {
   if (cambiar) cambiar.disabled = true
 
   pantalla.remove()
+  document.dispatchEvent(new Event('empresa-conectada'))
 
   const aviso = document.createElement('div')
   aviso.className = 'bg-amber-100 text-amber-950 text-center text-xs p-2'
