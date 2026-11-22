@@ -386,5 +386,84 @@
             if (window.lucide) lucide.createIcons();
         });
     </script>
+
+<script id="reaprovecha-navegacion">
+document.addEventListener('DOMContentLoaded', () => {
+
+    const secciones = [
+        'explorar',
+        'empresas',
+        'composta',
+        'reservas'
+    ];
+
+    function mostrarSeccion(seccion, desplazar = true) {
+
+        secciones.forEach(nombre => {
+
+            const contenido =
+                document.getElementById('sec-' + nombre);
+
+            if (contenido) {
+                contenido.classList.toggle(
+                    'hidden',
+                    nombre !== seccion
+                );
+            }
+
+            ['nav-', 'mnav-'].forEach(prefijo => {
+
+                const boton =
+                    document.getElementById(prefijo + nombre);
+
+                if (boton) {
+                    boton.classList.toggle(
+                        'is-active',
+                        nombre === seccion
+                    );
+
+                    boton.setAttribute(
+                        'aria-current',
+                        nombre === seccion ? 'page' : 'false'
+                    );
+
+                    boton.style.cursor = 'pointer';
+                }
+            });
+        });
+
+        if (desplazar) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    secciones.forEach(nombre => {
+
+        ['nav-', 'mnav-'].forEach(prefijo => {
+
+            const boton =
+                document.getElementById(prefijo + nombre);
+
+            if (boton) {
+                boton.addEventListener('click', () => {
+                    mostrarSeccion(nombre);
+                    history.replaceState(null, '', '#' + nombre);
+                });
+            }
+        });
+    });
+
+    const inicial = location.hash.replace('#', '');
+
+    mostrarSeccion(
+        secciones.includes(inicial) ? inicial : 'explorar',
+        false
+    );
+});
+</script>
+
 </body>
 </html>
