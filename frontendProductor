@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/reaprovecha-icon.svg">
+    <title>ReAprovecha — Panel Empresa & Productor | Cochabamba</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tipografías de alta legibilidad: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Iconos minimalistas Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* =====================================================================
+           SISTEMA DE DISEÑO BASADO EN REGLA 60-30-10 (IDÉNTICO A VISTA COMPRADOR)
+           - 60% Fondo dominante limpio y descansado (--bg-60)
+           - 30% Superficies suaves, contenedores y estructura (--surface-30 / --ink-30)
+           - 10% Acento llamativo solo para llamadas a la acción (--accent-10)
+           ===================================================================== */
+        :root {
+            --bg-60: #FFFBF7;           /* 60% Base neutra cálida */
+            --surface-30: #FFE1C6;      /* 30% Superficie secundaria */
+            --card-30: #FFFFFF;         /* Tarjetas limpias */
+            --ink-30: #1E3A8A;          /* Estructura tipográfica principal */
+            --ink-muted: #526384;       /* Texto secundario */
+            --accent-10: #FF7A00;       /* 10% Acción principal llamativa */
+            --accent-hover: #E06800;
+            --nature-tag: #6B8F5E;      /* Apoyo ecológico sutil */
+            --soft-pill: #9EC5E8;
+            --border-subtle: rgba(30, 58, 138, 0.09);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-60);
+            color: var(--ink-30);
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Utilidades de color vinculadas al sistema 60-30-10 */
+        .u-bg-60 { background-color: var(--bg-60); }
+        .u-surface-30 { background-color: var(--surface-30); }
+        .u-card-30 { background-color: var(--card-30); }
+        .u-ink-30 { color: var(--ink-30); }
+        .u-ink-bg { background-color: var(--ink-30); }
+        .u-ink-muted { color: var(--ink-muted); }
+        .u-accent-10 { background-color: var(--accent-10); }
+        .u-accent-10:hover { background-color: var(--accent-hover); }
+        .u-accent-text { color: var(--accent-10); }
+        .u-nature-bg { background-color: var(--nature-tag); }
+        .u-nature-text { color: var(--nature-tag); }
+        .u-pill-bg { background-color: var(--soft-pill); }
+        .u-border { border-color: var(--border-subtle); }
+
+        .smooth-ui {
+            transition: all 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Elevación sutil sin sombras pesadas */
+        .clean-card {
+            background-color: var(--card-30);
+            border: 1px solid var(--border-subtle);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.35s ease;
+        }
+        .clean-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.07);
+        }
+
+        /* Burbujas didácticas de navegación */
+        .bubble-nav-item {
+            position: relative;
+            transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bubble-nav-item:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
+        .bubble-nav-item.is-active {
+            transform: scale(1.04);
+        }
+        .bubble-dot {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+        }
+        .bubble-nav-item:hover .bubble-dot {
+            transform: scale(1.18) rotate(-6deg);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-orange-200">
+
+    <!-- ===================================================================== -->
+    <!-- BARRA DE CONTROL UX: SELECTOR DE LAS 4 PALETAS (REGLA 60-30-10)       -->
+    <!-- ===================================================================== -->
+    <div class="bg-neutral-900 text-neutral-200 text-xs py-2 px-4 border-b border-neutral-800">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-white/15 text-white font-semibold">Vista Productor</span>
+                <span class="text-neutral-400 hidden md:inline">Regla 60-30-10 • Gestión B2B & Economía Circular</span>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-1.5" id="palette-switcher">
+                <button type="button" onclick="applyTheme('citrus')" data-theme="citrus" class="theme-btn px-3 py-1 rounded-full bg-white/15 text-white font-medium flex items-center gap-1.5 ring-1 ring-white/50 transition cursor-pointer">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#FF7A00]"></span>
+                    <span>Fresh Citrus</span>
+                </button>
+                <button type="button" onclick="applyTheme('ramen')" data-theme="ramen" class="theme-btn px-3 py-1 rounded-full hover:bg-white/10 text-neutral-300 font-medium flex items-center gap-1.5 transition cursor-pointer">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#F27405]"></span>
+                    <span>Ramen & Especias</span>
+                </button>
+                <button type="button" onclick="applyTheme('sunset')" data-theme="sunset" class="theme-btn px-3 py-1 rounded-full hover:bg-white/10 text-neutral-300 font-medium flex items-center gap-1.5 transition cursor-pointer">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#9E2A2B]"></span>
+                    <span>Dark Sunset</span>
+                </button>
+                <button type="button" onclick="applyTheme('riviera')" data-theme="riviera" class="theme-btn px-3 py-1 rounded-full hover:bg-white/10 text-neutral-300 font-medium flex items-center gap-1.5 transition cursor-pointer">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#A9501C]"></span>
+                    <span>Riviera & Terracotta</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- HEADER MINIMALISTA CON BURBUJAS DIDÁCTICAS (IDÉNTICO A VISTA COMPRADOR)-->
+    <!-- ===================================================================== -->
+    <header class="sticky top-0 z-30 u-bg-60/90 backdrop-blur-md border-b u-border smooth-ui">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logotipo Limpio -->
+            <a href="#" onclick="navigate('por-vencer'); return false;" class="flex items-center gap-2.5 group shrink-0">
+                <div class="w-9 h-9 rounded-xl u-accent-10 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition">
+                    <i data-lucide="leaf" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="font-heading font-extrabold text-xl tracking-tight u-ink-30 block leading-none">ReAprovecha</span>
+                    <span class="text-[11px] u-ink-muted font-medium">Cochabamba</span>
+                </div>
+            </a>
+
+            <!-- Navegación Principal: Burbujas Didácticas Interactivas -->
+            <nav class="hidden md:flex items-center gap-3" aria-label="Navegación productor">
+                <button type="button" onclick="navigate('por-vencer')" id="nav-por-vencer" class="bubble-nav-item is-active flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-card-30 u-ink-30 border u-border shadow-sm cursor-pointer">
+                    <span class="bubble-dot w-8 h-8 rounded-full u-accent-10 text-white flex items-center justify-center shadow-2xs">
+                        <i data-lucide="clock" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-sm font-bold tracking-tight">Por Vencer</span>
+                    <span id="nav-count-vencer" class="text-xs font-extrabold u-ink-muted">3</span>
+                </button>
+
+                <button type="button" onclick="navigate('ciclo-circular')" id="nav-ciclo-circular" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-pointer">
+                    <span class="bubble-dot w-8 h-8 rounded-full u-surface-30 u-ink-30 flex items-center justify-center">
+                        <i data-lucide="recycle" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-sm font-semibold tracking-tight">Ciclo Circular</span>
+                    <span id="nav-count-circular" class="text-xs font-extrabold u-nature-text">2</span>
+                </button>
+
+                <button type="button" onclick="navigate('entregas')" id="nav-entregas" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-pointer">
+                    <span class="bubble-dot w-8 h-8 rounded-full u-surface-30 u-ink-30 flex items-center justify-center">
+                        <i data-lucide="ticket" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-sm font-semibold tracking-tight">Entregas</span>
+                    <span id="nav-count-entregas" class="w-5 h-5 flex items-center justify-center text-[11px] font-extrabold rounded-full u-accent-10 text-white shadow-2xs">2</span>
+                </button>
+            </nav>
+
+            <!-- Acción Derecha: Selector de Empresa Aliada + Botón Principal '+ Publicar Lote' -->
+            <div class="flex items-center gap-2.5 shrink-0">
+                <button type="button" onclick="openCompanyModal()" class="flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-full u-card-30 u-ink-30 border u-border text-xs font-semibold hover:opacity-85 transition cursor-pointer" title="Cambiar empresa aliada">
+                    <div id="header-company-logo" class="w-5 h-5 rounded-md overflow-hidden shrink-0"></div>
+                    <span id="header-company-name" class="hidden sm:inline max-w-[120px] truncate">PIL Andina</span>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 u-ink-muted"></i>
+                </button>
+
+                <button type="button" onclick="openPublishModal('por-vencer')" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full u-accent-10 text-white text-xs sm:text-sm font-semibold transition cursor-pointer shadow-xs">
+                    <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
+                    <span>Publicar Lote</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navegación Móvil en Burbujas -->
+        <div class="md:hidden flex items-center justify-around border-t u-border px-3 py-2.5 u-bg-60 gap-2 overflow-x-auto no-scrollbar">
+            <button type="button" onclick="navigate('por-vencer')" id="mnav-por-vencer" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-bold u-card-30 u-ink-30 border u-border shadow-2xs whitespace-nowrap">
+                <span class="w-6 h-6 rounded-full u-accent-10 text-white flex items-center justify-center"><i data-lucide="clock" class="w-3.5 h-3.5"></i></span>
+                <span>Por Vencer</span>
+            </button>
+            <button type="button" onclick="navigate('ciclo-circular')" id="mnav-ciclo-circular" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-semibold u-ink-muted whitespace-nowrap">
+                <span class="w-6 h-6 rounded-full u-surface-30 u-ink-30 flex items-center justify-center"><i data-lucide="recycle" class="w-3.5 h-3.5"></i></span>
+                <span>Ciclo Circular</span>
+            </button>
+            <button type="button" onclick="navigate('entregas')" id="mnav-entregas" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-semibold u-ink-muted whitespace-nowrap">
+                <span class="w-6 h-6 rounded-full u-surface-30 u-ink-30 flex items-center justify-center"><i data-lucide="ticket" class="w-3.5 h-3.5"></i></span>
+                <span>Entregas</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- CONTENIDO PRINCIPAL                                                   -->
+    <!-- ===================================================================== -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-5 sm:px-8 py-8 sm:py-12 space-y-10">
+
+        <!-- ENCABEZADO DE BIENVENIDA + 3 MÉTRICAS COMPACTAS -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div class="max-w-2xl space-y-2">
+                    <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider u-accent-text">
+                        <i data-lucide="store" class="w-3.5 h-3.5"></i>
+                        <span id="welcome-company-badge">Panel Empresarial • PIL Andina</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-[1.15] u-ink-30">
+                        Gestiona tus lotes y evita el desperdicio en Cochabamba.
+                    </h1>
+                    <p class="text-sm sm:text-base u-ink-muted leading-relaxed">
+                        Publica alimentos próximos a caducar con su fecha límite y automatiza su paso a composta o reúso agrícola si no se venden.
+                    </p>
+                </div>
+
+                <button type="button" onclick="openPublishModal('por-vencer')" class="self-start md:self-end inline-flex items-center gap-2 px-5 py-3 rounded-full u-ink-bg text-white text-xs sm:text-sm font-semibold hover:opacity-90 transition cursor-pointer shadow-xs shrink-0">
+                    <i data-lucide="plus-circle" class="w-4 h-4 text-orange-400"></i>
+                    <span>+ Publicar Lote</span>
+                </button>
+            </div>
+
+            <!-- Fila Compacta de 2 Métricas Clave Equilibradas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- KPI 1: Ingresos recuperados -->
+                <div class="clean-card rounded-2xl p-5 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl u-surface-30 u-ink-30 flex items-center justify-center shrink-0">
+                        <i data-lucide="wallet" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-medium u-ink-muted block">Ingresos recuperados</span>
+                        <div class="flex items-baseline gap-2 mt-0.5">
+                            <span id="kpi-ingresos" class="font-heading text-2xl font-extrabold u-ink-30">Bs. 2,420</span>
+                            <span class="text-[11px] u-ink-muted">Merma evitada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI 2: Lotes en Ciclo Circular -->
+                <div onclick="navigate('ciclo-circular')" class="clean-card rounded-2xl p-5 flex items-center gap-4 cursor-pointer" title="Ver lotes en Ciclo Circular">
+                    <div class="w-12 h-12 rounded-2xl u-surface-30 u-nature-text flex items-center justify-center shrink-0">
+                        <i data-lucide="recycle" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-medium u-ink-muted block">Lotes en Ciclo Circular</span>
+                        <div class="flex items-baseline gap-2 mt-0.5">
+                            <span id="kpi-lotes-circular" class="font-heading text-2xl font-extrabold u-ink-30">2 lotes</span>
+                            <span id="kpi-lotes-detalle" class="text-[11px] font-bold u-nature-text">3 activos por vencer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PESTAÑA 1: POR VENCER (CONSUMO HUMANO)                            -->
+        <!-- ================================================================= -->
+        <section id="sec-por-vencer" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b u-border pb-4">
+                <div>
+                    <h2 class="text-xl font-extrabold u-ink-30">Lotes activos próximos a caducar</h2>
+                    <p class="text-xs u-ink-muted">Visibles ahora mismo para consumidores de Cochabamba</p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <select id="filter-category" onchange="renderPorVencer()" class="u-card-30 u-ink-30 border u-border rounded-full px-4 py-2 text-xs font-semibold focus:outline-none cursor-pointer">
+                        <option value="Todas">Todas las categorías</option>
+                        <option value="Lácteos y Helados">Lácteos y Helados</option>
+                        <option value="Panadería">Panadería</option>
+                        <option value="Supermercado">Supermercado</option>
+                        <option value="Embutidos y Frescos">Embutidos y Frescos</option>
+                        <option value="Frutas y Verduras">Frutas y Verduras</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="grid-por-vencer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PESTAÑA 2: CICLO CIRCULAR (VENCIDOS APROVECHABLES - LIMPIA)       -->
+        <!-- ================================================================= -->
+        <section id="sec-ciclo-circular" class="hidden space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b u-border pb-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider u-nature-text">Cero Desperdicio • Economía Circular</span>
+                    <h2 class="text-xl font-extrabold u-ink-30 mt-0.5">Productos vencidos en aprovechamiento</h2>
+                    <p class="text-xs u-ink-muted">Lotes transferidos automáticamente al vencer o publicados directo para compostaje y granjas</p>
+                </div>
+
+                <button type="button" onclick="openPublishModal('vencido')" class="self-start sm:self-center inline-flex items-center gap-2 px-4 py-2.5 rounded-full u-nature-bg text-white text-xs font-bold hover:opacity-90 transition cursor-pointer shadow-xs shrink-0">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>+ Publicar Lote Vencido</span>
+                </button>
+            </div>
+
+            <div id="grid-ciclo-circular" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PESTAÑA 3: ENTREGAS (RESERVAS POR ENTREGAR)                       -->
+        <!-- ================================================================= -->
+        <section id="sec-entregas" class="hidden space-y-6">
+            <div class="border-b u-border pb-4">
+                <h2 class="text-xl font-extrabold u-ink-30">Reservas por entregar hoy</h2>
+                <p class="text-xs u-ink-muted">Verifica el código PIN de 4 dígitos del comprador o agricultor al momento del retiro en sucursal</p>
+            </div>
+
+            <div id="grid-entregas" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- FOOTER MINIMALISTA                                                    -->
+    <!-- ===================================================================== -->
+    <footer class="border-t u-border py-8 px-5 sm:px-8 mt-12">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs u-ink-muted">
+            <span>ReAprovecha • Portal de Empresas y Productores — Cochabamba</span>
+            <span>Precios justos • Cero desperdicio</span>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL '+ PUBLICAR LOTE' (SIN MODALIDAD DE ENTREGA CIRCULAR)           -->
+    <!-- ===================================================================== -->
+    <div id="publish-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div onclick="closePublishModal()" class="absolute inset-0 bg-neutral-950/45 backdrop-blur-xs"></div>
+        
+        <div class="relative w-full max-w-2xl u-card-30 rounded-3xl p-6 sm:p-8 shadow-2xl border u-border max-h-[92vh] overflow-y-auto space-y-6">
+            
+            <!-- Cabecera del Modal -->
+            <div class="flex items-start justify-between border-b u-border pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl u-accent-10 text-white flex items-center justify-center shadow-xs">
+                        <i data-lucide="package-plus" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-xl font-extrabold u-ink-30">Publicar Nuevo Lote</h3>
+                        <p class="text-xs u-ink-muted">Configura caducidad, foto, punto de recojo y regla circular</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closePublishModal()" class="p-2 rounded-full hover:bg-black/5 u-ink-30 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="publish-form" onsubmit="handlePublishSubmit(event)" class="space-y-5">
+                
+                <!-- 1. ESTADO INICIAL DEL LOTE -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider u-ink-30 mb-2">1. Tipo de publicación</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="lote-status" value="por-vencer" checked onchange="toggleLoteMode()" class="peer sr-only">
+                            <div class="p-3.5 rounded-2xl u-bg-60 border u-border peer-checked:border-orange-500 peer-checked:ring-2 peer-checked:ring-orange-500/20 transition">
+                                <div class="flex items-center gap-2 font-bold text-sm u-ink-30">
+                                    <i data-lucide="clock" class="w-4 h-4 u-accent-text"></i>
+                                    <span>Próximo a vencer</span>
+                                </div>
+                                <p class="text-xs u-ink-muted mt-1">Apto para consumo humano con descuento</p>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="lote-status" value="vencido" onchange="toggleLoteMode()" class="peer sr-only">
+                            <div class="p-3.5 rounded-2xl u-bg-60 border u-border peer-checked:border-emerald-600 peer-checked:ring-2 peer-checked:ring-emerald-600/20 transition">
+                                <div class="flex items-center gap-2 font-bold text-sm u-ink-30">
+                                    <i data-lucide="recycle" class="w-4 h-4 u-nature-text"></i>
+                                    <span>Ya vencido / Aprovechamiento</span>
+                                </div>
+                                <p class="text-xs u-ink-muted mt-1">Directo a composta, granjas o reúso</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 2. SUBIDA DE IMAGEN DEL PRODUCTO -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider u-ink-30 mb-2">2. Fotografía del producto</label>
+                    <input type="file" id="prod-image-input" accept="image/*" onchange="handleImageUpload(event)" class="hidden">
+                    
+                    <!-- Área de carga vacía -->
+                    <div id="image-upload-dropzone" onclick="document.getElementById('prod-image-input').click()" class="border-2 border-dashed u-border rounded-2xl p-5 text-center u-bg-60 hover:opacity-85 transition cursor-pointer">
+                        <div class="w-10 h-10 rounded-xl u-surface-30 u-accent-text flex items-center justify-center mx-auto mb-2">
+                            <i data-lucide="camera" class="w-5 h-5"></i>
+                        </div>
+                        <p class="text-xs font-bold u-ink-30">Haz clic para subir una foto del lote</p>
+                        <p class="text-[11px] u-ink-muted mt-0.5">JPG, PNG o WEBP (Si no subes foto, asignaremos una imagen referencial)</p>
+                    </div>
+
+                    <!-- Vista previa cuando hay foto subida -->
+                    <div id="image-preview-box" class="hidden relative rounded-2xl overflow-hidden border u-border h-44 bg-neutral-100">
+                        <img id="image-preview-img" src="" alt="Vista previa" class="w-full h-full object-cover">
+                        <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-between">
+                            <span class="text-xs text-white font-medium truncate max-w-[60%]" id="image-file-name">foto_producto.jpg</span>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="document.getElementById('prod-image-input').click()" class="px-3 py-1 rounded-full bg-white/90 text-neutral-900 text-[11px] font-bold hover:bg-white cursor-pointer">
+                                    Cambiar
+                                </button>
+                                <button type="button" onclick="removeUploadedImage()" class="px-3 py-1 rounded-full bg-red-600 text-white text-[11px] font-bold hover:bg-red-700 cursor-pointer">
+                                    Quitar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. DATOS BÁSICOS -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider u-ink-30">3. Detalles del producto</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold u-ink-30 mb-1">Nombre del lote / producto *</label>
+                            <input type="text" id="prod-name" required placeholder="Ej. Pack 4L Yogurt Frutado + Queso" class="w-full px-4 py-2.5 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold u-ink-30 mb-1">Categoría</label>
+                            <select id="prod-category" class="w-full px-4 py-2.5 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none cursor-pointer">
+                                <option value="Lácteos y Helados">Lácteos y Helados</option>
+                                <option value="Panadería">Panadería</option>
+                                <option value="Supermercado">Supermercado</option>
+                                <option value="Embutidos y Frescos">Embutidos y Frescos</option>
+                                <option value="Frutas y Verduras">Frutas y Verduras</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold u-ink-30 mb-1">Stock disponible *</label>
+                            <input type="text" id="prod-stock" required placeholder="Ej. 5 packs (o 15 kg)" class="w-full px-4 py-2.5 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none">
+                        </div>
+
+                        <div id="field-orig-price">
+                            <label class="block text-xs font-semibold u-ink-muted mb-1">Precio original (Bs.)</label>
+                            <input type="number" id="prod-orig-price" value="45" min="1" class="w-full px-4 py-2.5 rounded-xl u-bg-60 u-ink-30 border u-border text-sm focus:outline-none">
+                        </div>
+
+                        <div id="field-rescue-price">
+                            <label class="block text-xs font-bold u-accent-text mb-1">Precio reducido (Bs.)</label>
+                            <input type="number" id="prod-rescue-price" value="16" min="1" class="w-full px-4 py-2.5 rounded-xl u-surface-30/45 u-ink-30 border border-orange-400/50 font-bold text-sm focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. FECHA Y HORA DE CADUCIDAD DEL PRODUCTO -->
+                <div class="p-4 rounded-2xl u-surface-30/35 border u-border space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <label class="text-xs font-bold uppercase tracking-wider u-ink-30 flex items-center gap-1.5">
+                            <i data-lucide="calendar-clock" class="w-4 h-4 u-accent-text"></i>
+                            <span>4. Fecha y hora de caducidad *</span>
+                        </label>
+                        <span id="expiry-countdown-preview" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full u-card-30 u-accent-text border u-border">
+                            Calculando...
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold u-ink-30 mb-1">Fecha exacta de vencimiento</label>
+                            <input type="date" id="prod-expiry-date" required onchange="updateExpiryPreview()" class="w-full px-4 py-2.5 rounded-xl u-card-30 u-ink-30 border u-border text-sm font-medium focus:outline-none cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold u-ink-30 mb-1">Hora límite de retiro</label>
+                            <input type="time" id="prod-expiry-time" value="20:00" required onchange="updateExpiryPreview()" class="w-full px-4 py-2.5 rounded-xl u-card-30 u-ink-30 border u-border text-sm font-medium focus:outline-none cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. UBICACIÓN DE RECOJO (SUCURSAL / PLANTA / LOCAL) -->
+                <div class="p-4 rounded-2xl u-bg-60 border u-border space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <label class="text-xs font-bold uppercase tracking-wider u-ink-30 flex items-center gap-1.5">
+                            <i data-lucide="map-pin" class="w-4 h-4 u-accent-text"></i>
+                            <span>5. Ubicación de recojo *</span>
+                        </label>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full u-surface-30 u-ink-30 text-xs font-bold">
+                            <i data-lucide="store" class="w-3.5 h-3.5 u-accent-text"></i>
+                            <span>Recojo en Sucursal / Planta / Local</span>
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="block text-xs font-semibold u-ink-30 mb-1">Dirección exacta en Cochabamba *</label>
+                            <input type="text" id="prod-pickup-address" required value="Av. Blanco Galindo Km 4.5, Agencia PIL" placeholder="Dirección de sucursal, planta o local" class="w-full px-3.5 py-2.5 rounded-xl u-card-30 u-ink-30 border u-border text-xs sm:text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold u-ink-muted mb-1">Referencia de acceso (Opcional)</label>
+                            <input type="text" id="prod-pickup-ref" placeholder="Ej. Puerta lateral de despacho / Caja 2" class="w-full px-3.5 py-2.5 rounded-xl u-card-30 u-ink-30 border u-border text-xs sm:text-sm focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6A. AUTOMATIZACIÓN AL VENCER (SOLO PARA 'PRÓXIMO A VENCER') -->
+                <div id="section-auto-expire" class="p-4 rounded-2xl u-card-30 border-2 border-orange-400/40 space-y-3">
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-7 h-7 rounded-full u-surface-30 u-accent-text flex items-center justify-center shrink-0 mt-0.5">
+                            <i data-lucide="help-circle" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading font-bold text-sm u-ink-30">
+                                6. Al llegar su hora de vencimiento, ¿qué hacemos si queda stock sin vender?
+                            </h4>
+                            <p class="text-xs u-ink-muted">Evita el desperdicio automatizando el destino final del producto.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <label class="block cursor-pointer">
+                            <input type="radio" name="auto-expire-rule" value="compost" checked onchange="toggleAutoExpireSubfields()" class="peer sr-only">
+                            <div class="p-3 rounded-xl u-bg-60 border u-border peer-checked:border-emerald-600 peer-checked:bg-emerald-50/50 transition">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-bold text-xs u-ink-30 flex items-center gap-1.5">
+                                        <i data-lucide="recycle" class="w-4 h-4 u-nature-text"></i>
+                                        Sí, pasar automáticamente a Reutilizable / Compostaje
+                                    </span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full u-surface-30 u-nature-text">Cero desperdicio</span>
+                                </div>
+                            </div>
+                        </label>
+
+                        <div id="auto-expire-subfields" class="pl-3 border-l-2 border-emerald-500 py-1">
+                            <div>
+                                <label class="block text-[11px] font-semibold u-ink-30 mb-1">Categoría de Reúso</label>
+                                <select id="auto-circular-dest" onchange="updateReuseDescription('auto')" class="w-full px-3 py-2 rounded-xl u-bg-60 u-ink-30 border u-border text-xs font-medium focus:outline-none cursor-pointer">
+                                    <option value="Compostaje y Lombricultura">1) Compostaje y Lombricultura (Humus para cultivos)</option>
+                                    <option value="Alimentación Animal">2) Alimentación Animal (Granjas avícolas y porcinas)</option>
+                                    <option value="Biogás y Fertilizante Líquido">3) Biogás y Fertilizante Líquido (Biodigestores)</option>
+                                    <option value="Insumos Industriales / Cosmética">4) Insumos Industriales / Cosmética (Aceites, café, fermentos)</option>
+                                </select>
+                                <p id="auto-reuse-desc" class="text-[11px] u-ink-muted mt-1.5 leading-snug">
+                                    Ideal para frutas, verduras, panadería y granos que nutren huertas y viveros locales.
+                                </p>
+                            </div>
+                        </div>
+
+                        <label class="block cursor-pointer">
+                            <input type="radio" name="auto-expire-rule" value="remove" onchange="toggleAutoExpireSubfields()" class="peer sr-only">
+                            <div class="p-3 rounded-xl u-bg-60 border u-border peer-checked:border-neutral-500 transition">
+                                <span class="font-bold text-xs u-ink-muted flex items-center gap-1.5">
+                                    <i data-lucide="eye-off" class="w-4 h-4"></i>
+                                    No, retirar publicación automáticamente
+                                </span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 6B. OPCIONES DIRECTAS SI YA ESTÁ VENCIDO (SOLO CATEGORÍA DE REÚSO) -->
+                <div id="section-direct-circular" class="hidden p-4 rounded-2xl u-surface-30/35 border u-border space-y-2">
+                    <label class="block text-xs font-bold u-ink-30 mb-1">Categoría de Reúso</label>
+                    <select id="direct-circular-dest" onchange="updateReuseDescription('direct')" class="w-full px-3.5 py-2.5 rounded-xl u-card-30 u-ink-30 border u-border text-xs sm:text-sm font-medium focus:outline-none cursor-pointer">
+                        <option value="Compostaje y Lombricultura">1) Compostaje y Lombricultura (Humus para cultivos)</option>
+                        <option value="Alimentación Animal">2) Alimentación Animal (Granjas avícolas y porcinas)</option>
+                        <option value="Biogás y Fertilizante Líquido">3) Biogás y Fertilizante Líquido (Biodigestores)</option>
+                        <option value="Insumos Industriales / Cosmética">4) Insumos Industriales / Cosmética (Aceites, café, fermentos)</option>
+                    </select>
+                    <p id="direct-reuse-desc" class="text-[11px] u-ink-muted mt-1 leading-snug">
+                        Ideal para frutas, verduras, panadería y granos que nutren huertas y viveros locales.
+                    </p>
+                </div>
+
+                <!-- BOTONES DE ACCIÓN -->
+                <div class="pt-2 flex items-center gap-3">
+                    <button type="button" onclick="closePublishModal()" class="flex-1 py-3 rounded-full u-bg-60 u-ink-30 border u-border font-semibold text-sm hover:opacity-80 transition cursor-pointer">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="btn-submit-lote" class="flex-1 py-3 rounded-full u-accent-10 text-white font-semibold text-sm shadow-sm transition cursor-pointer">
+                        Publicar Lote
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL SELECTOR DE EMPRESA ALIADA (COCHABAMBA)                         -->
+    <!-- ===================================================================== -->
+    <div id="company-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div onclick="closeCompanyModal()" class="absolute inset-0 bg-neutral-950/45 backdrop-blur-xs"></div>
+        <div class="relative w-full max-w-md u-card-30 rounded-3xl p-6 sm:p-7 shadow-2xl border u-border space-y-5">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <h3 class="font-heading text-lg font-extrabold u-ink-30">Cambiar empresa aliada</h3>
+                    <p class="text-xs u-ink-muted">Selecciona la sucursal o productor para la demo</p>
+                </div>
+                <button type="button" onclick="closeCompanyModal()" class="p-2 rounded-full hover:bg-black/5 u-ink-30 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="company-selector-list" class="space-y-2.5"></div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- NOTIFICACIÓN SUTIL (TOAST IDÉNTICO A VISTA COMPRADOR)                 -->
+    <!-- ===================================================================== -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+        <div class="bg-neutral-900 text-white px-5 py-3 rounded-full shadow-lg text-xs sm:text-sm font-medium flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full u-accent-10"></span>
+            <span id="toast-text">Listo</span>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- JAVASCRIPT COMPLETO E INTACTO                                         -->
+    <!-- ===================================================================== -->
+    <script>
+        // 1. LAS 4 PALETAS BAJO LA REGLA 60-30-10
+        const THEMES = {
+            citrus: {
+                '--bg-60': '#FFFBF7',
+                '--surface-30': '#FFE1C6',
+                '--card-30': '#FFFFFF',
+                '--ink-30': '#1E3A8A',
+                '--ink-muted': '#526384',
+                '--accent-10': '#FF7A00',
+                '--accent-hover': '#E06800',
+                '--nature-tag': '#6B8F5E',
+                '--soft-pill': '#9EC5E8',
+                '--border-subtle': 'rgba(30, 58, 138, 0.09)'
+            },
+            ramen: {
+                '--bg-60': '#FDF9F3',
+                '--surface-30': '#F2DEC8',
+                '--card-30': '#FFFFFF',
+                '--ink-30': '#591902',
+                '--ink-muted': '#732E07',
+                '--accent-10': '#F27405',
+                '--accent-hover': '#D66400',
+                '--nature-tag': '#732E07',
+                '--soft-pill': '#F2A922',
+                '--border-subtle': 'rgba(89, 25, 2, 0.10)'
+            },
+            sunset: {
+                '--bg-60': '#FEFCF4',
+                '--surface-30': '#FFF3B0',
+                '--card-30': '#FFFFFF',
+                '--ink-30': '#335C67',
+                '--ink-muted': '#540B0E',
+                '--accent-10': '#9E2A2B',
+                '--accent-hover': '#7E1E1F',
+                '--nature-tag': '#335C67',
+                '--soft-pill': '#E09F3E',
+                '--border-subtle': 'rgba(51, 92, 103, 0.11)'
+            },
+            riviera: {
+                '--bg-60': '#F8F4EC',
+                '--surface-30': '#EDE2CE',
+                '--card-30': '#FFFFFF',
+                '--ink-30': '#183451',
+                '--ink-muted': '#556577',
+                '--accent-10': '#A9501C',
+                '--accent-hover': '#8B3F13',
+                '--nature-tag': '#183451',
+                '--soft-pill': '#D4AF83',
+                '--border-subtle': 'rgba(24, 52, 81, 0.10)'
+            }
+        };
+
+        function applyTheme(key) {
+            const vars = THEMES[key];
+            if (!vars) return;
+            Object.entries(vars).forEach(([prop, val]) => document.documentElement.style.setProperty(prop, val));
+
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                if (btn.dataset.theme === key) {
+                    btn.classList.add('bg-white/15', 'text-white', 'ring-1', 'ring-white/50');
+                    btn.classList.remove('text-neutral-300');
+                } else {
+                    btn.classList.remove('bg-white/15', 'text-white', 'ring-1', 'ring-white/50');
+                    btn.classList.add('text-neutral-300');
+                }
+            });
+        }
+
+        // 2. EMPRESAS ALIADAS DE COCHABAMBA
+        const COMPANIES = [
+            {
+                id: 'pil',
+                name: 'PIL Andina',
+                defaultAddress: 'Av. Blanco Galindo Km 4.5, Agencia PIL',
+                logoSvg: `<svg viewBox="0 0 80 80" class="w-full h-full"><rect width="80" height="80" rx="18" fill="#0055A5"/><ellipse cx="40" cy="41" rx="31" ry="20" fill="#FFFFFF"/><ellipse cx="40" cy="41" rx="27" ry="16" fill="#0072CE"/><text x="40" y="48" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="22">PIL</text></svg>`
+            },
+            {
+                id: 'hipermaxi',
+                name: 'Hipermaxi',
+                defaultAddress: 'Av. Ballivián (El Prado) esq. La Paz, Cochabamba',
+                logoSvg: `<svg viewBox="0 0 80 80" class="w-full h-full"><rect width="80" height="80" rx="18" fill="#1D4ED8"/><rect x="10" y="24" width="60" height="32" rx="8" fill="#FACC15"/><text x="40" y="44" text-anchor="middle" fill="#1E3A8A" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="11.5">HIPERMAXI</text></svg>`
+            },
+            {
+                id: 'icnorte',
+                name: 'IC Norte',
+                defaultAddress: 'Av. América Oeste #1145, Zona Norte, Cochabamba',
+                logoSvg: `<svg viewBox="0 0 80 80" class="w-full h-full"><rect width="80" height="80" rx="18" fill="#15803D"/><circle cx="40" cy="40" r="26" fill="#FFFFFF"/><text x="40" y="39" text-anchor="middle" fill="#15803D" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="18">IC</text><text x="40" y="52" text-anchor="middle" fill="#EA580C" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="10">NORTE</text></svg>`
+            },
+            {
+                id: 'victoria',
+                name: 'Panadería Victoria',
+                defaultAddress: 'Av. Simón López y Av. Ecológica, Cala Cala',
+                logoSvg: `<svg viewBox="0 0 80 80" class="w-full h-full"><rect width="80" height="80" rx="18" fill="#92400E"/><path d="M22 48 C22 32, 58 32, 58 48 Z" fill="#FBBF24"/><text x="40" y="61" text-anchor="middle" fill="#FEF3C7" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="11">VICTORIA</text></svg>`
+            }
+        ];
+
+        const CATEGORY_IMAGES = {
+            'Lácteos y Helados': 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=700&q=80',
+            'Panadería': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=700&q=80',
+            'Supermercado': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=700&q=80',
+            'Embutidos y Frescos': 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=700&q=80',
+            'Frutas y Verduras': 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=700&q=80'
+        };
+
+        const REUSE_DESCRIPTIONS = {
+            'Compostaje y Lombricultura': 'Ideal para frutas, verduras, panadería y granos que nutren huertas y viveros locales.',
+            'Alimentación Animal': 'Excedentes de pan, granos, suero lácteo y vegetales aptos para granjas avícolas y porcinas.',
+            'Biogás y Fertilizante Líquido': 'Residuos orgánicos mixtos o líquidos para biodigestores rurales que generan energía y biol.',
+            'Insumos Industriales / Cosmética': 'Aceites vegetales para jabones/biodiésel, borra de café para hongos ostra o frutas para vinagres.'
+        };
+
+        function getOffsetDateStr(daysOffset) {
+            const d = new Date();
+            d.setDate(d.getDate() + daysOffset);
+            return d.toISOString().split('T')[0];
+        }
+
+        function formatFriendlyDate(dateStr) {
+            if (!dateStr) return 'Hoy';
+            const [y, m, d] = dateStr.split('-');
+            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            return `${parseInt(d, 10)} ${months[parseInt(m, 10) - 1]} ${y}`;
+        }
+
+        // ESTADO GLOBAL DE LA APLICACIÓN
+        const state = {
+            activeTab: 'por-vencer',
+            activeCompany: COMPANIES[0],
+            uploadedImageDataUrl: null,
+            kpis: {
+                ingresosBs: 2420
+            },
+            porVencer: [
+                {
+                    id: 1,
+                    title: 'Pack Familiar 4L Yogurt Frutado + Queso',
+                    category: 'Lácteos y Helados',
+                    stock: '5 packs',
+                    origPrice: 52,
+                    rescuePrice: 18,
+                    expiryDate: getOffsetDateStr(1),
+                    expiryTime: '20:00',
+                    deliveryMode: 'Recojo en Sucursal / Planta / Local',
+                    pickupAddress: 'Av. Blanco Galindo Km 4.5, Agencia PIL',
+                    pickupRef: 'Puerta lateral de despacho refrigerado',
+                    autoExpireRule: 'compost',
+                    circularDest: 'Alimentación Animal',
+                    img: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=700&q=80'
+                },
+                {
+                    id: 2,
+                    title: 'Caja 6 Leche Chocolatada + Mantequilla',
+                    category: 'Lácteos y Helados',
+                    stock: '8 cajas',
+                    origPrice: 44,
+                    rescuePrice: 16,
+                    expiryDate: getOffsetDateStr(2),
+                    expiryTime: '19:30',
+                    deliveryMode: 'Recojo en Sucursal / Planta / Local',
+                    pickupAddress: 'Av. Blanco Galindo Km 10.5, Planta PIL',
+                    pickupRef: 'Portería Norte • Atención Q\'omer',
+                    autoExpireRule: 'compost',
+                    circularDest: 'Biogás y Fertilizante Líquido',
+                    img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=700&q=80'
+                },
+                {
+                    id: 3,
+                    title: 'Pack Pan Artesanal & Masitas del Día',
+                    category: 'Panadería',
+                    stock: '4 bolsas',
+                    origPrice: 38,
+                    rescuePrice: 13,
+                    expiryDate: getOffsetDateStr(0),
+                    expiryTime: '21:00',
+                    deliveryMode: 'Recojo en Sucursal / Planta / Local',
+                    pickupAddress: 'Av. Ballivián (El Prado) esq. La Paz',
+                    pickupRef: 'Mostrador de Atención al Cliente',
+                    autoExpireRule: 'remove',
+                    circularDest: '',
+                    img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=700&q=80'
+                }
+            ],
+            cicloCircular: [
+                {
+                    id: 101,
+                    title: '50 L Suero Lácteo y Derivados para Granjas',
+                    category: 'Lácteos y Helados',
+                    stock: '4 lotes (50 L)',
+                    dest: 'Alimentación Animal',
+                    pickupAddress: 'Planta Industrial Av. Blanco Galindo Km 10.5',
+                    originTag: 'Auto-pase al vencer',
+                    img: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=700&q=80'
+                },
+                {
+                    id: 102,
+                    title: '35 kg Hortalizas y Frutas Sobremaduras',
+                    category: 'Frutas y Verduras',
+                    stock: '2 lotes (35 kg)',
+                    dest: 'Compostaje y Lombricultura',
+                    pickupAddress: 'Av. América Oeste #1145, Zona Norte',
+                    originTag: 'Publicado directo',
+                    img: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=700&q=80'
+                }
+            ],
+            entregas: [
+                {
+                    code: 'QM-7194',
+                    buyerName: 'Camila Mamani',
+                    buyerRole: 'Consumidor Q\'omer',
+                    item: '1x Pack Familiar 4L Yogurt Frutado + Queso',
+                    amount: 'Bs. 18',
+                    pickupAddress: 'Av. Blanco Galindo Km 4.5, Agencia PIL',
+                    time: 'Hoy • 17:30 a 20:00'
+                },
+                {
+                    code: 'QM-4821',
+                    buyerName: 'Don Carlos Quispe (Huerta Tiquipaya)',
+                    buyerRole: 'Agricultor Aliado',
+                    item: '1x Lote 50 L Suero Lácteo para Granjas',
+                    amount: 'Ciclo Circular',
+                    pickupAddress: 'Planta Industrial Av. Blanco Galindo Km 10.5',
+                    time: 'Hoy • 18:00 a 19:30'
+                }
+            ]
+        };
+
+        // 3. NAVEGACIÓN CON BURBUJAS DIDÁCTICAS
+        function navigate(tabId) {
+            state.activeTab = tabId;
+            ['por-vencer', 'ciclo-circular', 'entregas'].forEach(id => {
+                const sec = document.getElementById(`sec-${id}`);
+                const deskBtn = document.getElementById(`nav-${id}`);
+                const deskDot = deskBtn.querySelector('.bubble-dot');
+                const mobBtn = document.getElementById(`mnav-${id}`);
+                const mobDot = mobBtn.querySelector('span');
+
+                if (id === tabId) {
+                    sec.classList.remove('hidden');
+                    deskBtn.classList.add('is-active', 'u-card-30', 'u-ink-30', 'border', 'u-border', 'shadow-sm');
+                    deskBtn.classList.remove('u-surface-30/45', 'u-ink-muted', 'border-transparent');
+                    deskDot.classList.add('u-accent-10', 'text-white');
+                    deskDot.classList.remove('u-surface-30', 'u-ink-30');
+
+                    mobBtn.classList.add('u-card-30', 'u-ink-30', 'font-bold', 'border', 'u-border', 'shadow-2xs');
+                    mobBtn.classList.remove('u-ink-muted', 'font-semibold');
+                    mobDot.classList.add('u-accent-10', 'text-white');
+                    mobDot.classList.remove('u-surface-30', 'u-ink-30');
+                } else {
+                    sec.classList.add('hidden');
+                    deskBtn.classList.remove('is-active', 'u-card-30', 'u-ink-30', 'border', 'u-border', 'shadow-sm');
+                    deskBtn.classList.add('u-surface-30/45', 'u-ink-muted', 'border-transparent');
+                    deskDot.classList.remove('u-accent-10', 'text-white');
+                    deskDot.classList.add('u-surface-30', 'u-ink-30');
+
+                    mobBtn.classList.remove('u-card-30', 'u-ink-30', 'font-bold', 'border', 'u-border', 'shadow-2xs');
+                    mobBtn.classList.add('u-ink-muted', 'font-semibold');
+                    mobDot.classList.remove('u-accent-10', 'text-white');
+                    mobDot.classList.add('u-surface-30', 'u-ink-30');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateCountersAndKpis() {
+            const vCount = state.porVencer.length;
+            const cCount = state.cicloCircular.length;
+
+            document.getElementById('nav-count-vencer').textContent = vCount;
+            document.getElementById('nav-count-circular').textContent = cCount;
+            document.getElementById('nav-count-entregas').textContent = state.entregas.length;
+
+            document.getElementById('kpi-ingresos').textContent = `Bs. ${state.kpis.ingresosBs.toLocaleString()}`;
+            document.getElementById('kpi-lotes-circular').textContent = `${cCount} ${cCount === 1 ? 'lote' : 'lotes'}`;
+            document.getElementById('kpi-lotes-detalle').textContent = `${vCount} activos por vencer`;
+        }
+
+        // 4. RENDERIZAR PESTAÑA 1: POR VENCER
+        function renderPorVencer() {
+            const grid = document.getElementById('grid-por-vencer');
+            const selectedCat = document.getElementById('filter-category').value;
+            const filtered = selectedCat === 'Todas'
+                ? state.porVencer
+                : state.porVencer.filter(i => i.category === selectedCat);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full clean-card rounded-3xl p-10 text-center space-y-3">
+                        <div class="w-12 h-12 rounded-2xl u-surface-30 u-accent-text flex items-center justify-center mx-auto">
+                            <i data-lucide="package-open" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold u-ink-30">No hay lotes activos en esta categoría</h3>
+                        <p class="text-xs sm:text-sm u-ink-muted">Haz clic en "+ Publicar Lote" para ofrecer productos próximos a caducar.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => {
+                const discount = Math.max(0, Math.round(((item.origPrice - item.rescuePrice) / item.origPrice) * 100));
+                const isAutoCompost = item.autoExpireRule === 'compost';
+
+                return `
+                <article class="clean-card rounded-3xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <!-- Imagen + Badges Superiores -->
+                        <div class="relative h-48 overflow-hidden bg-neutral-100">
+                            <img src="${item.img}" onerror="this.src='https://placehold.co/600x400/FFE1C6/1E3A8A?text=ReAprovecha+Lote'" alt="${item.title}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-extrabold u-accent-10 text-white shadow-xs">
+                                -${discount}% DTO
+                            </span>
+                            <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold u-card-30/95 u-ink-30 border u-border shadow-xs backdrop-blur-md">
+                                ${item.stock}
+                            </span>
+                        </div>
+
+                        <!-- Cuerpo de Tarjeta -->
+                        <div class="p-6 pb-4 space-y-3">
+                            <div class="flex items-center justify-between gap-2 text-xs">
+                                <span class="font-semibold u-nature-text">${item.category}</span>
+                                <span class="font-bold u-accent-text flex items-center gap-1">
+                                    <i data-lucide="calendar-clock" class="w-3.5 h-3.5"></i>
+                                    Caduca: ${formatFriendlyDate(item.expiryDate)} • ${item.expiryTime}
+                                </span>
+                            </div>
+
+                            <h3 class="font-bold text-lg u-ink-30 leading-snug">${item.title}</h3>
+
+                            <!-- Ubicación de recojo -->
+                            <div class="u-bg-60 p-3 rounded-2xl border u-border space-y-1 text-xs">
+                                <div class="flex items-start gap-1.5 font-semibold u-ink-30">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 u-accent-text shrink-0 mt-0.5"></i>
+                                    <span>${item.pickupAddress}</span>
+                                </div>
+                                <div class="pl-5 text-[11px] u-ink-muted flex flex-wrap items-center gap-x-2">
+                                    <span>${item.deliveryMode}</span>
+                                    ${item.pickupRef ? `<span>• ${item.pickupRef}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pie: Precios + Regla Automática de Vencimiento -->
+                    <div class="px-6 pb-6 pt-2 space-y-3">
+                        <div class="flex items-center justify-between pt-2 border-t u-border">
+                            <div>
+                                <span class="text-xs line-through u-ink-muted block">Antes Bs. ${item.origPrice}</span>
+                                <span class="font-heading text-2xl font-extrabold u-ink-30">Bs. ${item.rescuePrice}</span>
+                            </div>
+
+                            <button type="button" onclick="simulateExpiration(${item.id})" class="px-3.5 py-2 rounded-full u-surface-30 u-ink-30 text-xs font-bold hover:opacity-80 transition cursor-pointer flex items-center gap-1.5" title="Demo Hackathon: Simular que llegó la fecha de caducidad">
+                                <i data-lucide="fast-forward" class="w-3.5 h-3.5 u-accent-text"></i>
+                                <span>Simular vencimiento</span>
+                            </button>
+                        </div>
+
+                        <!-- Badge estado automático -->
+                        <div class="px-3 py-2 rounded-xl text-[11px] flex items-center gap-2 ${isAutoCompost ? 'bg-emerald-50 text-emerald-900 border border-emerald-200/70' : 'u-bg-60 u-ink-muted border u-border'}">
+                            <i data-lucide="${isAutoCompost ? 'recycle' : 'eye-off'}" class="w-3.5 h-3.5 ${isAutoCompost ? 'text-emerald-600' : ''} shrink-0"></i>
+                            <span class="truncate">
+                                ${isAutoCompost
+                                    ? `<strong>Auto-pase al vencer:</strong> ${item.circularDest}`
+                                    : 'Retiro automático al llegar su caducidad'}
+                            </span>
+                        </div>
+                    </div>
+                </article>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // 5. RENDERIZAR PESTAÑA 2: CICLO CIRCULAR (LIMPIA)
+        function renderCicloCircular() {
+            const grid = document.getElementById('grid-ciclo-circular');
+            if (state.cicloCircular.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full clean-card rounded-3xl p-10 text-center space-y-3">
+                        <div class="w-12 h-12 rounded-2xl u-surface-30 u-nature-text flex items-center justify-center mx-auto">
+                            <i data-lucide="recycle" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold u-ink-30">Aún no hay lotes vencidos en aprovechamiento</h3>
+                        <p class="text-xs sm:text-sm u-ink-muted">Los productos configurados con auto-pase aparecerán aquí automáticamente al caducar.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            grid.innerHTML = state.cicloCircular.map(item => `
+                <article class="clean-card rounded-3xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-44 overflow-hidden bg-neutral-100">
+                            <img src="${item.img}" onerror="this.src='https://placehold.co/600x400/FFE1C6/1E3A8A?text=Ciclo+Circular'" alt="${item.title}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold u-nature-bg text-white shadow-xs">
+                                ${item.dest}
+                            </span>
+                            <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-[11px] font-bold u-card-30/95 u-ink-30 border u-border">
+                                ${item.originTag}
+                            </span>
+                        </div>
+
+                        <div class="p-6 pb-4 space-y-3">
+                            <span class="text-xs font-semibold u-nature-text block">${item.category}</span>
+                            <h3 class="font-bold text-lg u-ink-30 leading-snug">${item.title}</h3>
+                            <p class="text-xs u-ink-muted">Volumen disponible: <strong class="u-ink-30">${item.stock}</strong></p>
+
+                            <div class="u-bg-60 p-3 rounded-2xl border u-border text-xs flex items-start gap-1.5 u-ink-30">
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 u-accent-text shrink-0 mt-0.5"></i>
+                                <span>${item.pickupAddress}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-6 pt-3 border-t u-border flex items-center justify-between">
+                        <span class="text-[11px] u-ink-muted">Visible para agricultores</span>
+                        <button type="button" onclick="markCircularDelivered(${item.id})" class="px-4 py-2 rounded-full u-ink-bg text-white text-xs font-semibold hover:opacity-90 transition cursor-pointer flex items-center gap-1.5">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Marcar entregado</span>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // 6. RENDERIZAR PESTAÑA 3: ENTREGAS (RESERVAS POR ENTREGAR)
+        function renderEntregas() {
+            const grid = document.getElementById('grid-entregas');
+            if (state.entregas.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full clean-card rounded-3xl p-10 text-center space-y-3">
+                        <div class="w-12 h-12 rounded-2xl u-surface-30 u-ink-30 flex items-center justify-center mx-auto">
+                            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold u-ink-30">Todas las reservas de hoy han sido entregadas</h3>
+                        <p class="text-xs sm:text-sm u-ink-muted">Cuando un consumidor o agricultor reserve un lote, verás su código PIN aquí.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            grid.innerHTML = state.entregas.map(res => {
+                const isFarmer = res.buyerRole.includes('Agricultor');
+                return `
+                <article class="clean-card rounded-3xl p-6 flex flex-col justify-between gap-5">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="space-y-1.5">
+                            <span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full u-surface-30 ${isFarmer ? 'u-nature-text' : 'u-accent-text'}">
+                                ${res.buyerRole}
+                            </span>
+                            <h3 class="font-heading text-lg font-extrabold u-ink-30">${res.buyerName}</h3>
+                            <p class="text-sm u-ink-muted">${res.item}</p>
+                            <div class="pt-1 space-y-1 text-xs u-ink-muted">
+                                <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 u-accent-text"></i> ${res.time}</span>
+                                <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 u-accent-text"></i> ${res.pickupAddress}</span>
+                            </div>
+                        </div>
+
+                        <div class="u-ink-bg text-white rounded-2xl px-4 py-3 text-center shrink-0 shadow-xs">
+                            <span class="block text-[9px] uppercase tracking-widest opacity-75 font-semibold">Código PIN</span>
+                            <span class="font-heading font-extrabold text-lg tracking-wider">#${res.code}</span>
+                            <span class="block text-[11px] font-bold mt-1 text-orange-300">${res.amount}</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t u-border flex items-center justify-between gap-3">
+                        <span class="text-xs u-ink-muted flex items-center gap-1.5">
+                            <i data-lucide="shield-check" class="w-4 h-4 u-nature-text"></i>
+                            Valida el PIN al entregar
+                        </span>
+                        <button type="button" onclick="confirmEntrega('${res.code}')" class="px-5 py-2.5 rounded-full u-accent-10 text-white text-xs font-bold shadow-xs transition cursor-pointer flex items-center gap-1.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                            <span>Confirmar entrega</span>
+                        </button>
+                    </div>
+                </article>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // 7. SIMULACIÓN DE VENCIMIENTO Y ACCIONES EN VIVO
+        function simulateExpiration(id) {
+            const idx = state.porVencer.findIndex(i => i.id === id);
+            if (idx === -1) return;
+
+            const item = state.porVencer.splice(idx, 1)[0];
+
+            if (item.autoExpireRule === 'compost') {
+                state.cicloCircular.unshift({
+                    id: Date.now(),
+                    title: item.title,
+                    category: item.category,
+                    stock: item.stock,
+                    dest: item.circularDest || 'Compostaje y Lombricultura',
+                    pickupAddress: item.pickupAddress,
+                    originTag: 'Auto-pase al vencer',
+                    img: item.img
+                });
+                updateCountersAndKpis();
+                renderPorVencer();
+                renderCicloCircular();
+                navigate('ciclo-circular');
+                showToast(`¡Caducidad alcanzada! "${item.title}" pasó automáticamente a Ciclo Circular.`);
+            } else {
+                updateCountersAndKpis();
+                renderPorVencer();
+                showToast(`"${item.title}" llegó a su fecha de caducidad y se retiró automáticamente.`);
+            }
+        }
+
+        function markCircularDelivered(id) {
+            const idx = state.cicloCircular.findIndex(i => i.id === id);
+            if (idx === -1) return;
+
+            const item = state.cicloCircular.splice(idx, 1)[0];
+            updateCountersAndKpis();
+            renderCicloCircular();
+            showToast(`¡Ciclo cerrado! "${item.title}" entregado para ${item.dest}.`);
+        }
+
+        function confirmEntrega(code) {
+            const idx = state.entregas.findIndex(r => r.code === code);
+            if (idx === -1) return;
+
+            const res = state.entregas.splice(idx, 1)[0];
+            if (res.amount.startsWith('Bs.')) {
+                const val = parseFloat(res.amount.replace('Bs.', '').trim()) || 0;
+                state.kpis.ingresosBs += val;
+            }
+            updateCountersAndKpis();
+            renderEntregas();
+            showToast(`Entrega validada con PIN #${code} para ${res.buyerName}.`);
+        }
+
+        // 8. MODAL '+ PUBLICAR LOTE': ABRIR, CERRAR, FOTO, FECHA, REÚSO Y SUBMIT
+        function openPublishModal(defaultMode = 'por-vencer') {
+            const modal = document.getElementById('publish-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            const radio = document.querySelector(`input[name="lote-status"][value="${defaultMode}"]`);
+            if (radio) radio.checked = true;
+
+            const dateInput = document.getElementById('prod-expiry-date');
+            if (!dateInput.value) {
+                dateInput.value = getOffsetDateStr(1);
+            }
+
+            const addrInput = document.getElementById('prod-pickup-address');
+            if (addrInput && state.activeCompany) {
+                addrInput.value = state.activeCompany.defaultAddress;
+            }
+
+            toggleLoteMode();
+            toggleAutoExpireSubfields();
+            updateExpiryPreview();
+            updateReuseDescription('auto');
+            updateReuseDescription('direct');
+            lucide.createIcons();
+        }
+
+        function closePublishModal() {
+            const modal = document.getElementById('publish-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function toggleLoteMode() {
+            const checkedRadio = document.querySelector('input[name="lote-status"]:checked');
+            const mode = checkedRadio ? checkedRadio.value : 'por-vencer';
+
+            const fieldOrig = document.getElementById('field-orig-price');
+            const fieldRescue = document.getElementById('field-rescue-price');
+            const secAuto = document.getElementById('section-auto-expire');
+            const secDirect = document.getElementById('section-direct-circular');
+            const submitBtn = document.getElementById('btn-submit-lote');
+
+            if (mode === 'por-vencer') {
+                fieldOrig.classList.remove('hidden');
+                fieldRescue.classList.remove('hidden');
+                secAuto.classList.remove('hidden');
+                secDirect.classList.add('hidden');
+                submitBtn.textContent = 'Publicar Lote';
+            } else {
+                fieldOrig.classList.add('hidden');
+                fieldRescue.classList.add('hidden');
+                secAuto.classList.add('hidden');
+                secDirect.classList.remove('hidden');
+                submitBtn.textContent = 'Publicar en Ciclo Circular';
+            }
+        }
+
+        function toggleAutoExpireSubfields() {
+            const checkedRule = document.querySelector('input[name="auto-expire-rule"]:checked');
+            const rule = checkedRule ? checkedRule.value : 'compost';
+            const subfields = document.getElementById('auto-expire-subfields');
+
+            if (rule === 'compost') {
+                subfields.classList.remove('hidden');
+            } else {
+                subfields.classList.add('hidden');
+            }
+        }
+
+        function updateReuseDescription(prefix) {
+            const selectEl = document.getElementById(`${prefix}-circular-dest`);
+            const descEl = document.getElementById(`${prefix}-reuse-desc`);
+            if (!selectEl || !descEl) return;
+            descEl.textContent = REUSE_DESCRIPTIONS[selectEl.value] || '';
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                state.uploadedImageDataUrl = e.target.result;
+                document.getElementById('image-preview-img').src = e.target.result;
+                document.getElementById('image-file-name').textContent = file.name;
+                document.getElementById('image-upload-dropzone').classList.add('hidden');
+                document.getElementById('image-preview-box').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeUploadedImage() {
+            state.uploadedImageDataUrl = null;
+            const input = document.getElementById('prod-image-input');
+            if (input) input.value = '';
+            document.getElementById('image-preview-img').src = '';
+            document.getElementById('image-preview-box').classList.add('hidden');
+            document.getElementById('image-upload-dropzone').classList.remove('hidden');
+        }
+
+        function updateExpiryPreview() {
+            const dateVal = document.getElementById('prod-expiry-date').value;
+            const timeVal = document.getElementById('prod-expiry-time').value || '20:00';
+            const badge = document.getElementById('expiry-countdown-preview');
+            if (!dateVal || !badge) return;
+
+            const target = new Date(`${dateVal}T${timeVal}:00`);
+            const now = new Date();
+            const diffMs = target - now;
+
+            if (diffMs <= 0) {
+                badge.textContent = 'Fecha pasada (Vencido)';
+                return;
+            }
+
+            const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const days = Math.floor(totalHours / 24);
+            const hours = totalHours % 24;
+
+            if (days === 0) {
+                badge.textContent = `Vence hoy en ${Math.max(1, hours)} h`;
+            } else if (days === 1) {
+                badge.textContent = `Vence mañana (${hours} h restantes)`;
+            } else {
+                badge.textContent = `Vence en ${days} días y ${hours} h`;
+            }
+        }
+
+        function handlePublishSubmit(e) {
+            e.preventDefault();
+
+            const checkedRadio = document.querySelector('input[name="lote-status"]:checked');
+            const mode = checkedRadio ? checkedRadio.value : 'por-vencer';
+
+            const name = document.getElementById('prod-name').value.trim();
+            const category = document.getElementById('prod-category').value;
+            const stock = document.getElementById('prod-stock').value.trim();
+            const expiryDate = document.getElementById('prod-expiry-date').value;
+            const expiryTime = document.getElementById('prod-expiry-time').value;
+            const deliveryMode = 'Recojo en Sucursal / Planta / Local';
+            const pickupAddress = document.getElementById('prod-pickup-address').value.trim();
+            const pickupRef = document.getElementById('prod-pickup-ref').value.trim();
+
+            if (!name || !stock || !pickupAddress) return;
+
+            const finalImage = state.uploadedImageDataUrl || CATEGORY_IMAGES[category] || CATEGORY_IMAGES['Supermercado'];
+
+            if (mode === 'por-vencer') {
+                const origPrice = parseFloat(document.getElementById('prod-orig-price').value) || 40;
+                const rescuePrice = parseFloat(document.getElementById('prod-rescue-price').value) || 15;
+                const autoRuleEl = document.querySelector('input[name="auto-expire-rule"]:checked');
+                const autoRule = autoRuleEl ? autoRuleEl.value : 'compost';
+                const circularDest = document.getElementById('auto-circular-dest').value;
+
+                state.porVencer.unshift({
+                    id: Date.now(),
+                    title: name,
+                    category: category,
+                    stock: stock,
+                    origPrice: origPrice,
+                    rescuePrice: rescuePrice,
+                    expiryDate: expiryDate,
+                    expiryTime: expiryTime,
+                    deliveryMode: deliveryMode,
+                    pickupAddress: pickupAddress,
+                    pickupRef: pickupRef,
+                    autoExpireRule: autoRule,
+                    circularDest: circularDest,
+                    img: finalImage
+                });
+
+                updateCountersAndKpis();
+                renderPorVencer();
+                navigate('por-vencer');
+                showToast(`Lote "${name}" publicado con caducidad ${formatFriendlyDate(expiryDate)}.`);
+            } else {
+                const dest = document.getElementById('direct-circular-dest').value;
+
+                state.cicloCircular.unshift({
+                    id: Date.now(),
+                    title: name,
+                    category: category,
+                    stock: stock,
+                    dest: dest,
+                    pickupAddress: pickupAddress,
+                    originTag: 'Publicado directo',
+                    img: finalImage
+                });
+
+                updateCountersAndKpis();
+                renderCicloCircular();
+                navigate('ciclo-circular');
+                showToast(`Lote "${name}" publicado directamente en Ciclo Circular.`);
+            }
+
+            e.target.reset();
+            removeUploadedImage();
+            document.getElementById('prod-expiry-date').value = getOffsetDateStr(1);
+            document.getElementById('prod-pickup-address').value = state.activeCompany.defaultAddress;
+            toggleLoteMode();
+            toggleAutoExpireSubfields();
+            closePublishModal();
+        }
+
+        // 9. MODALES SECUNDARIOS (CAMBIO DE EMPRESA Y EXPLICACIÓN KPI)
+        function openCompanyModal() {
+            const list = document.getElementById('company-selector-list');
+            list.innerHTML = COMPANIES.map(c => {
+                const isSelected = c.id === state.activeCompany.id;
+                return `
+                <button type="button" onclick="selectCompany('${c.id}')" class="w-full p-3.5 rounded-2xl border u-border flex items-center justify-between gap-3 text-left transition cursor-pointer ${isSelected ? 'u-surface-30/60 ring-2 ring-orange-500/40' : 'u-bg-60 hover:opacity-85'}">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl overflow-hidden shrink-0">${c.logoSvg}</div>
+                        <div class="min-w-0">
+                            <span class="font-bold text-sm u-ink-30 block truncate">${c.name}</span>
+                            <span class="text-[11px] u-ink-muted block truncate">${c.defaultAddress}</span>
+                        </div>
+                    </div>
+                    ${isSelected ? '<span class="text-[11px] font-bold u-accent-text shrink-0">Activa</span>' : ''}
+                </button>
+                `;
+            }).join('');
+
+            const modal = document.getElementById('company-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeCompanyModal() {
+            const modal = document.getElementById('company-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function selectCompany(companyId) {
+            const comp = COMPANIES.find(c => c.id === companyId);
+            if (!comp) return;
+            state.activeCompany = comp;
+
+            document.getElementById('header-company-logo').innerHTML = comp.logoSvg;
+            document.getElementById('header-company-name').textContent = comp.name;
+            document.getElementById('welcome-company-badge').textContent = `Panel Empresarial • ${comp.name}`;
+
+            closeCompanyModal();
+            showToast(`Cambiaste al panel de ${comp.name}`);
+        }
+
+        // 10. TOAST NOTIFICACIÓN
+        let toastTimer;
+        function showToast(msg) {
+            const el = document.getElementById('toast');
+            document.getElementById('toast-text').textContent = msg;
+            el.classList.remove('opacity-0', 'translate-y-3');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.add('opacity-0', 'translate-y-3'), 3400);
+        }
+
+        // INICIALIZAR
+        window.addEventListener('DOMContentLoaded', () => {
+            applyTheme('citrus');
+            document.getElementById('header-company-logo').innerHTML = state.activeCompany.logoSvg;
+            document.getElementById('prod-expiry-date').value = getOffsetDateStr(1);
+            updateCountersAndKpis();
+            renderPorVencer();
+            renderCicloCircular();
+            renderEntregas();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-dominant: #FFFBF7;
+    --surface-soft: #FFE1C6;
+    --surface-white: #FFFFFF;
+    --brand-navy: #1E3A8A;
+    --brand-muted: #526384;
+    --brand-orange: #FF7A00;
+    --brand-orange-hover: #E06800;
+    --eco-green: #6B8F5E;
+    --eco-sky: #9EC5E8;
+  }
+
+  body {
+    background-color: #FFFBF7;
+    color: #1E3A8A;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.didactic-bubble {
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.didactic-bubble:hover {
+  transform: scale(1.03);
+}
+
+.didactic-bubble:active {
+  transform: scale(0.98);
+}
+
+.didactic-bubble .bubble-dot {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.didactic-bubble:hover .bubble-dot {
+  transform: rotate(45deg) scale(1.1);
+}
+
+.clean-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(30, 58, 138, 0.09);
+  border-radius: 1rem;
+  transition: all 0.25s ease-in-out;
+}
+
+.clean-card:hover {
+  border-color: rgba(30, 58, 138, 0.16);
+  box-shadow: 0 12px 30px -4px rgba(30, 58, 138, 0.08);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFFBF7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFE1C6;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF7A00;
+}

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/reaprovecha-icon.svg">
+    <title>ReAprovecha — Rescate Alimentario & Economía Circular | Cochabamba</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-60: #FFFBF7;
+            --surface-30: #FFE1C6;
+            --card-30: #FFFFFF;
+            --ink-30: #1E3A8A;
+            --ink-muted: #526384;
+            --accent-10: #FF7A00;
+            --accent-hover: #E06800;
+            --nature-tag: #6B8F5E;
+            --soft-pill: #9EC5E8;
+            --border-subtle: rgba(30, 58, 138, 0.09);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-60);
+            color: var(--ink-30);
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .u-bg-60 { background-color: var(--bg-60); }
+        .u-surface-30 { background-color: var(--surface-30); }
+        .u-card-30 { background-color: var(--card-30); }
+        .u-ink-30 { color: var(--ink-30); }
+        .u-ink-bg { background-color: var(--ink-30); }
+        .u-ink-muted { color: var(--ink-muted); }
+        .u-accent-10 { background-color: var(--accent-10); }
+        .u-accent-10:hover { background-color: var(--accent-hover); }
+        .u-accent-text { color: var(--accent-10); }
+        .u-nature-bg { background-color: var(--nature-tag); }
+        .u-nature-text { color: var(--nature-tag); }
+        .u-pill-bg { background-color: var(--soft-pill); }
+        .u-border { border-color: var(--border-subtle); }
+
+        .smooth-ui {
+            transition: all 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .clean-card {
+            background-color: var(--card-30);
+            border: 1px solid var(--border-subtle);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.35s ease;
+        }
+        .clean-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.07);
+        }
+
+        .bubble-nav-item {
+            position: relative;
+            transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bubble-nav-item:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
+        .bubble-nav-item.is-active {
+            transform: scale(1.04);
+        }
+        .bubble-dot {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+        }
+        .bubble-nav-item:hover .bubble-dot {
+            transform: scale(1.18) rotate(-6deg);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-orange-200">
+
+    <header class="sticky top-0 z-30 u-bg-60/90 backdrop-blur-md border-b u-border smooth-ui">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-2.5 group shrink-0 select-none">
+                <div class="w-9 h-9 rounded-xl u-accent-10 flex items-center justify-center text-white shadow-xs">
+                    <i data-lucide="leaf" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="font-heading font-extrabold text-xl tracking-tight u-ink-30 block leading-none">ReAprovecha</span>
+                    <span class="text-[11px] u-ink-muted font-medium">Cochabamba</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-3">
+                <button type="button" id="nav-explorar" class="bubble-nav-item is-active flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-card-30 u-ink-30 border u-border shadow-sm cursor-default">
+                    <span class="bubble-dot w-8 h-8 rounded-full u-accent-10 text-white flex items-center justify-center shadow-2xs">
+                        <i data-lucide="compass" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-sm font-bold tracking-tight">Explorar</span>
+                </button>
+
+                <button type="button" id="nav-empresas" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-default">
+                    <span class="bubble-dot w-8 h-8 rounded-full u-surface-30 u-ink-30 flex items-center justify-center">
+                        <i data-lucide="store" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-sm font-semibold tracking-tight">Empresas</span>
+                </button>
+
+                <button type="button" id="nav-composta" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-default">
+                    <span class="bubble-dot w-8 h-8 rounded-full u-surface-30 u-ink-30 flex items-center justify-center">
+                        <i data-lucide="sprout" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-sm font-semibold tracking-tight">Composta</span>
+                </button>
+
+                <button type="button" id="nav-reservas" class="bubble-nav-item flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 rounded-full u-surface-30/45 hover:u-card-30 u-ink-muted hover:u-ink-30 border border-transparent hover:u-border cursor-default">
+                    <span class="bubble-dot w-8 h-8 rounded-full u-surface-30 u-ink-30 flex items-center justify-center">
+                        <i data-lucide="ticket" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-sm font-semibold tracking-tight">Mis Reservas</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="md:hidden flex items-center justify-around border-t u-border px-3 py-2.5 u-bg-60 gap-2 overflow-x-auto no-scrollbar">
+            <button type="button" id="mnav-explorar" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-bold u-card-30 u-ink-30 border u-border shadow-2xs whitespace-nowrap">
+                <span class="w-6 h-6 rounded-full u-accent-10 text-white flex items-center justify-center"><i data-lucide="compass" class="w-3.5 h-3.5"></i></span>
+                <span>Explorar</span>
+            </button>
+            <button type="button" id="mnav-empresas" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-semibold u-ink-muted whitespace-nowrap">
+                <span class="w-6 h-6 rounded-full u-surface-30 u-ink-30 flex items-center justify-center"><i data-lucide="store" class="w-3.5 h-3.5"></i></span>
+                <span>Empresas</span>
+            </button>
+            <button type="button" id="mnav-composta" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-semibold u-ink-muted whitespace-nowrap">
+                <span class="w-6 h-6 rounded-full u-surface-30 u-ink-30 flex items-center justify-center"><i data-lucide="sprout" class="w-3.5 h-3.5"></i></span>
+                <span>Composta</span>
+            </button>
+            <button type="button" id="mnav-reservas" class="flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full text-xs font-semibold u-ink-muted whitespace-nowrap">
+                <span class="w-6 h-6 rounded-full u-surface-30 u-ink-30 flex items-center justify-center"><i data-lucide="ticket" class="w-3.5 h-3.5"></i></span>
+                <span>Mis Reservas</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl w-full mx-auto px-5 sm:px-8 py-10 sm:py-14">
+
+        <section id="sec-explorar" class="space-y-10">
+            <div class="max-w-2xl space-y-3">
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.12] u-ink-30">
+                    Alimentos frescos de Cochabamba, a mitad de precio.
+                </h1>
+                <p class="text-base sm:text-lg u-ink-muted leading-relaxed">
+                    Rescata paquetes de comida y productos alimenticios próximos a vencer de negocios locales antes de que se desperdicien.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="category-bar">
+                    <button type="button" class="cat-chip px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white whitespace-nowrap">Todas las categorías</button>
+                </div>
+
+                <div class="relative shrink-0">
+                    <select id="zone-filter" class="appearance-none u-card-30 u-ink-30 border u-border rounded-full pl-4 pr-9 py-2 text-sm font-medium focus:outline-none cursor-pointer">
+                        <option value="">Todas las zonas</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-4 h-4 u-ink-muted absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                </div>
+            </div>
+
+            <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <div class="col-span-full clean-card rounded-3xl p-12 text-center text-[#526384] space-y-3">
+                    <div class="w-14 h-14 rounded-full u-surface-30 u-accent-text flex items-center justify-center mx-auto">
+                        <i data-lucide="package-open" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg u-ink-30">No hay productos disponibles por el momento</h3>
+                    <p class="text-xs u-ink-muted max-w-sm mx-auto">
+                        Los productos registrados en la base de datos aparecerán aquí dinámicamente cuando el backend consulte la tabla de ofertas.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-empresas" class="hidden space-y-8">
+            <div class="space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full u-surface-30 u-accent-text text-xs font-bold uppercase tracking-wide">
+                    <i data-lucide="store" class="w-3.5 h-3.5"></i>
+                    <span>Red de Aliados</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold u-ink-30 font-heading">
+                    Empresas Aliadas en Cochabamba
+                </h2>
+                <p class="text-base u-ink-muted max-w-2xl">
+                    Explora los negocios de demostración de Cochabamba y descubre sus ofertas de rescate alimentario.
+                </p>
+            </div>
+
+            <div class="relative max-w-md">
+                <input type="text" placeholder="Buscar empresas..." class="w-full u-card-30 border u-border rounded-xl pl-10 pr-4 py-3 text-sm u-ink-30 placeholder-neutral-400 outline-none">
+                <i data-lucide="search" class="w-4 h-4 u-ink-muted absolute left-3.5 top-3.5"></i>
+            </div>
+
+            <div id="companies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-full clean-card rounded-3xl p-12 text-center text-[#526384] space-y-3">
+                    <div class="w-14 h-14 rounded-full u-surface-30 u-accent-text flex items-center justify-center mx-auto">
+                        <i data-lucide="building-2" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg u-ink-30">No hay empresas registradas por el momento</h3>
+                    <p class="text-xs u-ink-muted max-w-sm mx-auto">
+                        Las empresas asociadas y sus perfiles se desplegarán en esta sección.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-composta" class="hidden space-y-8">
+            <div class="space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full u-surface-30 u-nature-text text-xs font-bold uppercase tracking-wide">
+                    <i data-lucide="sprout" class="w-3.5 h-3.5"></i>
+                    <span>Economía Circular • Cero Desperdicio</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold u-ink-30 font-heading">
+                    Lotes para composta y alimento animal
+                </h2>
+                <p class="text-base u-ink-muted max-w-2xl">
+                    Alimentos que ya pasaron su fecha de consumo humano, clasificados por empresas de Cochabamba para potenciar cultivos, lombricultura o granjas locales.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                <button type="button" class="px-4 py-2 rounded-full text-sm font-semibold u-ink-bg text-white whitespace-nowrap">Todos los lotes</button>
+            </div>
+
+            <div id="compost-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="col-span-full clean-card rounded-3xl p-12 text-center text-[#526384] space-y-3">
+                    <div class="w-14 h-14 rounded-full u-surface-30 u-nature-text flex items-center justify-center mx-auto">
+                        <i data-lucide="sprout" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg u-ink-30">No hay lotes disponibles por el momento</h3>
+                    <p class="text-xs u-ink-muted max-w-sm mx-auto">
+                        Los lotes de biomasa orgánica para compostaje y alimento animal se mostrarán aquí cuando estén registrados en la base de datos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-reservas" class="hidden space-y-8">
+            <div class="space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full u-surface-30 u-accent-text text-xs font-bold uppercase tracking-wide">
+                    <i data-lucide="ticket" class="w-3.5 h-3.5"></i>
+                    <span>Tus Pedidos Activos</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold u-ink-30 font-heading">
+                    Mis Reservas y Punto de Retiro
+                </h2>
+                <p class="text-base u-ink-muted max-w-2xl">
+                    Selecciona una reserva para ver su ubicación exacta en Cochabamba y presenta tu código al recoger.
+                </p>
+            </div>
+
+            <div id="reservations-grid" class="space-y-4">
+                <div class="clean-card rounded-3xl p-12 text-center text-[#526384] space-y-3">
+                    <div class="w-14 h-14 rounded-full u-surface-30 u-accent-text flex items-center justify-center mx-auto">
+                        <i data-lucide="ticket" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg u-ink-30">No tienes reservas activas</h3>
+                    <p class="text-xs u-ink-muted max-w-sm mx-auto">
+                        Cuando reserves un producto u oferta de rescate, tus códigos de retiro y ubicaciones aparecerán en esta sección.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <template id="product-card-template">
+        <article class="clean-card rounded-3xl overflow-hidden flex flex-col justify-between">
+            <div class="cursor-pointer group">
+                <div class="relative h-48 overflow-hidden bg-neutral-100">
+                    <img data-field="img" src="" alt="Producto" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <span data-field="discount" class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-extrabold text-white u-accent-10 shadow-xs">-0%</span>
+                    <span data-field="stock" class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow-xs backdrop-blur-md u-card-30/95 u-ink-30 border u-border">
+                        Stock disponible
+                    </span>
+                </div>
+                <div class="p-6 pb-4 space-y-2">
+                    <div class="flex items-center justify-between gap-2 text-xs">
+                        <span data-field="biz" class="font-semibold u-ink-30">Empresa</span>
+                        <span data-field="zone" class="u-ink-muted truncate">Zona</span>
+                    </div>
+                    <h3 data-field="title" class="font-bold text-lg u-ink-30 leading-snug pt-0.5">Título del Producto</h3>
+                    <p data-field="time" class="text-xs u-ink-muted">Horario de retiro</p>
+                </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-3 flex items-center justify-between">
+                <div>
+                    <span data-field="oldPrice" class="text-xs line-through u-ink-muted block">Bs. 0</span>
+                    <span data-field="newPrice" class="font-heading text-2xl font-extrabold u-ink-30">Bs. 0</span>
+                </div>
+                <button type="button" class="px-5 py-2.5 rounded-xl text-white text-sm font-semibold u-accent-10 cursor-pointer shadow-xs">
+                    Reservar &rarr;
+                </button>
+            </div>
+        </article>
+    </template>
+
+    <template id="company-card-template">
+        <article class="clean-card rounded-3xl p-6 flex flex-col justify-between space-y-5">
+            <div class="flex items-start gap-4">
+                <div data-field="logo" class="w-16 h-16 rounded-2xl overflow-hidden shrink-0 shadow-sm u-surface-30 flex items-center justify-center font-heading font-extrabold text-2xl u-ink-30">
+                    E
+                </div>
+                <div class="min-w-0 space-y-1">
+                    <span data-field="category" class="inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full u-surface-30 u-ink-30">
+                        Categoría
+                    </span>
+                    <h3 data-field="name" class="font-heading text-xl font-extrabold u-ink-30 truncate">Nombre de la Empresa</h3>
+                    <p data-field="address" class="text-xs u-ink-muted flex items-center gap-1 truncate">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 u-accent-text shrink-0"></i>
+                        <span>Dirección / Zona</span>
+                    </p>
+                </div>
+            </div>
+
+            <p data-field="description" class="text-xs u-ink-muted line-clamp-2">Descripción de la empresa y productos que ofrece.</p>
+
+            <div class="pt-4 border-t u-border flex items-center justify-between text-xs">
+                <span data-field="offersCount" class="font-semibold u-ink-30">0 ofertas activas</span>
+                <span class="font-semibold u-accent-text flex items-center gap-1">
+                    <span>Ver productos y biomasa</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </span>
+            </div>
+        </article>
+    </template>
+
+    <template id="compost-card-template">
+        <article class="clean-card rounded-3xl p-6 flex flex-col justify-between space-y-5">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between gap-2 text-xs">
+                    <span data-field="biz" class="font-semibold u-ink-30">Empresa (Sucursal)</span>
+                    <span data-field="stock" class="px-2.5 py-0.5 rounded-full text-xs font-bold u-bg-60 u-ink-30 border u-border">Stock: 0 lotes</span>
+                </div>
+                <span data-field="type" class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full u-surface-30 u-nature-text">
+                    <i data-lucide="sprout" class="w-3 h-3"></i>
+                    <span>Compostaje / Humus</span>
+                </span>
+                <h3 data-field="title" class="font-bold text-lg u-ink-30 leading-snug">Título del Lote Orgánico</h3>
+                <p data-field="description" class="text-xs u-ink-muted">Descripción detallada de la biomasa orgánica.</p>
+                <div class="p-2.5 rounded-xl u-bg-60 border u-border text-xs flex items-center justify-between">
+                    <span class="u-ink-muted">Presentación:</span>
+                    <span data-field="presentation" class="font-semibold u-ink-30">Bolsa / Bidón</span>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t u-border flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] u-ink-muted block">Aporte simbólico</span>
+                    <span data-field="price" class="font-heading text-2xl font-extrabold u-ink-30">Bs. 0</span>
+                </div>
+                <button type="button" class="px-5 py-2.5 rounded-xl text-white text-sm font-semibold u-nature-bg shadow-xs cursor-pointer">
+                    Solicitar lote &rarr;
+                </button>
+            </div>
+        </article>
+    </template>
+
+    <footer class="border-t u-border py-8 px-5 sm:px-8 mt-12">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs u-ink-muted">
+            <span>ReAprovecha • Rescate Alimentario en Cochabamba</span>
+            <span>Precios justos • Cero desperdicio</span>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+
+<script id="reaprovecha-navegacion">
+document.addEventListener('DOMContentLoaded', () => {
+
+    const secciones = [
+        'explorar',
+        'empresas',
+        'composta',
+        'reservas'
+    ];
+
+    function mostrarSeccion(seccion, desplazar = true) {
+
+        secciones.forEach(nombre => {
+
+            const contenido =
+                document.getElementById('sec-' + nombre);
+
+            if (contenido) {
+                contenido.classList.toggle(
+                    'hidden',
+                    nombre !== seccion
+                );
+            }
+
+            ['nav-', 'mnav-'].forEach(prefijo => {
+
+                const boton =
+                    document.getElementById(prefijo + nombre);
+
+                if (boton) {
+                    boton.classList.toggle(
+                        'is-active',
+                        nombre === seccion
+                    );
+
+                    boton.setAttribute(
+                        'aria-current',
+                        nombre === seccion ? 'page' : 'false'
+                    );
+
+                    boton.style.cursor = 'pointer';
+                }
+            });
+        });
+
+        if (desplazar) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    secciones.forEach(nombre => {
+
+        ['nav-', 'mnav-'].forEach(prefijo => {
+
+            const boton =
+                document.getElementById(prefijo + nombre);
+
+            if (boton) {
+                boton.addEventListener('click', () => {
+                    mostrarSeccion(nombre);
+                    history.replaceState(null, '', '#' + nombre);
+                });
+            }
+        });
+    });
+
+    const inicial = location.hash.replace('#', '');
+
+    mostrarSeccion(
+        secciones.includes(inicial) ? inicial : 'explorar',
+        false
+    );
+});
+</script>
+
+    <script type="module" src="/src/catalogo.ts"></script>
+    <script type="module" src="/src/ofertas.ts"></script>
+    <script type="module" src="/src/mis-reservas.ts"></script>
+    <script type="module" src="/src/empresas.ts"></script>
+</body>
+</html>
